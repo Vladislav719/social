@@ -1,0 +1,36 @@
+
+
+
+    <div ng-class="{login: shownedBlock=='login', registration:shownedBlock=='registration'}"
+         class="center-login-form center-block">
+        <span ng-click="shownedBlock = 'login'" class="tab">Sign In</span><!--
+            --><span ng-click="shownedBlock = 'registration'" class="tab">Sign Up</span>
+        <div class="login-form-wrapper"  ng-show="shownedBlock == 'login'">
+            <form action="/j_spring_security_check" method="post">
+                <input type="text" class="inp" name="j_username" placeholder="Email address" required autofocus>
+                <input type="password" class="inp" name="j_password" placeholder="Password" required>
+
+                <input style="visibility:hidden; position: absolute" id="remember-me" type="checkbox" name="remember-me" checked/>
+                <br>
+                <button class="btn" type="submit">Sign In</button>
+            </form>
+        </div>
+        <div class="registration-form-wrapper" ng-show="shownedBlock == 'registration'">
+            <form>
+                <input type="text" ng-model="user.firstName" class="inp" name="firstName" id="firstName" placeholder="First name" required autofocus>
+                <label for="firstName" ng-show="errors.firstName != null">{{errors.firstName}}</label>
+                <input type="text" ng-model="user.lastName" class="inp" name="lastName" id="lastName" placeholder="Last name" required>
+                <label for="lastName" ng-show="errors.lastName != null">{{errors.lastName}}</label>
+                <input type="text" ng-model="user.email" class="inp" name="email" id="email" placeholder="Email" required>
+                <label for="email" ng-show="errors.email != null">{{errors.email}}</label>
+                <input type="password" ng-model="user.password" class="inp" name="password" id="password" placeholder="Password" required>
+                <label for="password" ng-show="errors.password != null">{{errors.password}}</label>
+                <input type="password" ng-model="user.confirmPassword" class="inp" name="email" id="confirmPassword" placeholder="Confirm password" required>
+                <label for="confirmPassword" ng-show="errors.confirmPassword != null">{{errors.confirmPassword}}</label>
+                <br>
+                <button class="btn" type="submit" ng-click="signUp()">Sign Up</button>
+            </form>
+        </div>
+    </div>
+</div>
+
