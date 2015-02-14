@@ -1,9 +1,11 @@
 package model;
 
 import com.google.gson.annotations.Expose;
+import controller.api.model.UserInfoForm;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 
 /**
@@ -19,8 +21,9 @@ public class UserInfo {
     @Expose
     private long id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
+    @Expose
     private User user;
 
     @Column(name = "first_name")
@@ -30,10 +33,6 @@ public class UserInfo {
     @Column(name = "last_name")
     @Expose
     private String lastName;
-
-    @Column(name = "birth_date")
-    @Expose
-    private Date birthDate;
 
     @Expose
     private String city;
@@ -88,14 +87,6 @@ public class UserInfo {
         this.city = city;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public User getUser() {
         return user;
     }
@@ -120,11 +111,10 @@ public class UserInfo {
         this.photoPath = photoPath;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
+    public UserInfo update(UserInfoForm userInfoForm) {
+        this.firstName = userInfoForm.getFirstName();
+        this.lastName = userInfoForm.getLastName();
+        this.city = userInfoForm.getCity();
+        return this;
     }
 }

@@ -1,8 +1,10 @@
 package service.Impl;
 
+import controller.api.model.UserInfoForm;
 import controller.model.UserRegistrationForm;
 import model.User;
 import model.UserInfo;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.UserInfoRepository;
@@ -38,5 +40,18 @@ public class UserServiceImpl implements UserService {
         newUser.setUserInfo(userInfo);
         userInfo.setUser(newUser);
         return userRepository.save(newUser);
+    }
+
+    @Override
+    public UserInfo getUserInfo(Long profileId) {
+        return userInfoRepository.getUserInfo(profileId);
+    }
+
+    @Override
+    public UserInfo updateUserInfo(UserInfoForm userInfoForm, long profileId) {
+        UserInfo userInfo = userInfoRepository.findOne(profileId);
+        userInfo.update(userInfoForm);
+        userInfoRepository.save(userInfo);
+        return userInfo;
     }
 }

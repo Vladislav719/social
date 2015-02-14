@@ -3,6 +3,7 @@ package config;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
+import org.springframework.web.filter.HttpPutFormContentFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
@@ -39,7 +40,8 @@ public class WebAppInitializer extends
         return new Filter[]{
                 characterEncodingFilter,
                 new DelegatingFilterProxy("springSecurityFilterChain"),
-                new OpenEntityManagerInViewFilter()
+                new OpenEntityManagerInViewFilter(),
+                new HttpPutFormContentFilter()
         };
     }
 

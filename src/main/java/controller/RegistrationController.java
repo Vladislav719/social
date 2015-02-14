@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.BindingResultErrorUtil;
 import service.UserService;
+import service.gson.GsonService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +36,12 @@ import java.util.HashMap;
 @Controller
 @RequestMapping()
 public class RegistrationController {
+
+    @Autowired
+    GsonService gsonService;
+
+    @Autowired
+    BindingResultErrorUtil bindingResultErrorUtil;
 
     @Autowired
     private UserService userService;
@@ -53,32 +61,14 @@ public class RegistrationController {
         isExist(userRegistrationForm, bindingResult);
         isPasswordEquals(userRegistrationForm, bindingResult);
         userRegistrationForm.setPassword(decodePassword(userRegistrationForm.getPassword()));
-        Gson gson;
+        Gson gson = gsonService.standardBuilder();
         if (bindingResult.hasErrors()){
-            gson = new GsonBuilder()
-                    .setPrettyPrinting()
-                    .create();
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            HashMap<String, Object> returnJSON = new HashMap<>();
-            returnJSON.put("errors", getErrors(bindingResult));
-            return gson.toJson(returnJSON);
+            return gson.toJson(bindingResultErrorUtil.returnJson(bindingResult));
         } else{
-            gson = new GsonBuilder()
-                    .setPrettyPrinting()
-                    .excludeFieldsWithoutExposeAnnotation()
-                    .create();
             response.setStatus(HttpServletResponse.SC_CREATED);
             User newUser = userService.createUser(userRegistrationForm);
             return gson.toJson(newUser);
         }
-    }
-
-    private HashMap<String, String> getErrors(BindingResult bindingResult) {
-        HashMap<String, String> errors = new HashMap<>();
-        for (FieldError error : bindingResult.getFieldErrors()){
-            errors.put(error.getField(), error.getDefaultMessage());
-        }
-        return errors;
     }
 
     private String decodePassword(String password) {

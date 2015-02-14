@@ -16,7 +16,9 @@
                     <span class="tools-icon"></span>
                 </li>
                 <li class="icons-item">
-                    <span class="logout-icon"></span>
+                    <a href="/logout">
+                        <span class="logout-icon"></span>
+                    </a>
                 </li>
             </ul>
             <div class="seperate-vertical my-seperate-vertical"></div>

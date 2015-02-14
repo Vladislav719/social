@@ -13,4 +13,18 @@
 <script src="/resources/js/vendors/angular.js"></script>
 <script src="/resources/js/vendors/angular-route.min.js"></script>
 <script src="/resources/js/app.js"></script>
+<%--Services--%>
+<script src="/resources/js/services/SignInInfoService.js"></script>
+<script src="/resources/js/services/StatusService.js"></script>
+<%----%>
+<%--API--%>
+<script src="/resources/js/api/ApiHelpService.js"></script>
+<script src="/resources/js/api/UserApiService.js"></script>
+<%----%>
+<%--Controllers--%>
+<script src="/resources/js/controllers/AppController.js"></script>
+<script src="/resources/js/controllers/LoginPageController.js"></script>
+<script src="/resources/js/controllers/ProfileController.js"></script>
+<%----%>
+
 

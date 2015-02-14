@@ -1,0 +1,28 @@
+<div>
+    <input type="text" name="firstName" ng-model="userInfo.firstName" class="inp"/>
+    <input type="text" name="lastName" ng-model="userInfo.lastName" class="inp"/>
+    <input type="city" name="city" ng-model="userInfo.city" class="inp"/>
+    <button class="btn" ng-click="updateUserInfo()" ng-if="myProfile">Change</button>
+
+    <button class="btn" ng-click="addToFriend()" ng-if="!myProfile">Add To Friend</button>
+
+    Income:
+    <br>
+    <div ng-repeat="inRequest in incomeFriendRequests">
+        {{inRequest.from}}
+        <button class="btn" ng-click="acceptFriendRequest($index)">Accept</button>
+        <button class="btn" ng-click="declineFriendRequest($index)">Decline</button>
+    </div>
+
+    Outcome:
+    <div ng-repeat="outRequest in outcomeFriendRequests">
+        {{outRequest.from}}
+        <button class="btn" ng-click="cancelFriendRequest($index)">Decline</button>
+    </div>
+    <br>
+    Friends
+    <div ng-repeat="friend in friends">
+        {{friend}}
+        <button class="btn" ng-click="removeFromFriends($index)">Decline</button>
+    </div>
+</div>
