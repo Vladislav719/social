@@ -1,5 +1,6 @@
 package model;
 
+import com.google.gson.annotations.Expose;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -13,8 +14,10 @@ public class User {
     @GeneratedValue(generator="increment")
     @GenericGenerator(name="increment", strategy = "increment")
     @Column(name="user_id")
+    @Expose
     private long userId;
-    
+
+    @Expose
     private String email;
 
     private String password;

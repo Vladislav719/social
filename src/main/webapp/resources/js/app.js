@@ -69,18 +69,19 @@ app.service('SignInInfo', function($http, api, $location, Status){
             return !(user == null)
         },
         setUser: function(data){
-            user = JSON.parse(data);
+            user = data;
         },
-        login: function(response){
-            $http.post(api.url('sessions.json'), {email: response.email, password: response.password}).success(function(data){
-                localStorage.setItem('social', data);
-                user = JSON.parse(data.user);
-                user.group_id = data.group_id;
-                localStorage.setItem('AdditionalPointsUser', JSON.stringify(user));
-                $location.url('/account/students');
-            }).error(function(data){
-                alert('wrong');
-            });
+        login: function(user){
+            var params = {j_username: user.email, j_password: user.password, 'remember-me': 'on'};
+            $http.post('/j_spring_security_check', $.param(params),
+                {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
+                .success(function(data){
+                    console.log(data);
+                    location.href = '/';
+                }).error(function(data){
+                    console.log(data);
+                    location.href = '/login';
+                })
 
         },
         logout: function(){
@@ -101,8 +102,10 @@ app.controller('MainPageCtrl', ['$scope', '$http', 'SignInInfo', function($scope
     $scope.user = {};
     $scope.signUp = function(){
         $scope.errors = '';
-            $http.post('/register_user', $scope.user).success(function(data){
-            SignInInfo.login(data);
+        $http.post('/register_user', $scope.user).success(function(data){
+            console.log(data);
+            SignInInfo.setUser(data);
+            SignInInfo.login($scope.user);
         }).error(function(data){
             $scope.errors = data.errors;
         });

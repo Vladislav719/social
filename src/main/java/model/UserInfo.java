@@ -1,5 +1,6 @@
 package model;
 
+import com.google.gson.annotations.Expose;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ public class UserInfo {
     @GeneratedValue(generator="increment")
     @GenericGenerator(name="increment", strategy = "increment")
     @Column(name = "user_info_id")
+    @Expose
     private long id;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -22,22 +24,28 @@ public class UserInfo {
     private User user;
 
     @Column(name = "first_name")
+    @Expose
     private String firstName;
 
     @Column(name = "last_name")
+    @Expose
     private String lastName;
 
     @Column(name = "birth_date")
+    @Expose
     private Date birthDate;
 
+    @Expose
     private String city;
-
+    @Expose
     private Date lastActivity;
 
     @Column(name = "phone_number")
+    @Expose
     private String phoneNumber;
 
     @Column(name = "photo_path")
+    @Expose
     private String photoPath;
 
     public UserInfo() {

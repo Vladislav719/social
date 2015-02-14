@@ -53,34 +53,24 @@ public class RegistrationController {
         isExist(userRegistrationForm, bindingResult);
         isPasswordEquals(userRegistrationForm, bindingResult);
         userRegistrationForm.setPassword(decodePassword(userRegistrationForm.getPassword()));
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .create();
+        Gson gson;
         if (bindingResult.hasErrors()){
+            gson = new GsonBuilder()
+                    .setPrettyPrinting()
+                    .create();
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             HashMap<String, Object> returnJSON = new HashMap<>();
             returnJSON.put("errors", getErrors(bindingResult));
             return gson.toJson(returnJSON);
         } else{
+            gson = new GsonBuilder()
+                    .setPrettyPrinting()
+                    .excludeFieldsWithoutExposeAnnotation()
+                    .create();
             response.setStatus(HttpServletResponse.SC_CREATED);
             User newUser = userService.createUser(userRegistrationForm);
-            authenticateUserAndSetSession(newUser, request);
             return gson.toJson(newUser);
         }
-    }
-
-    private void authenticateUserAndSetSession(model.User user, HttpServletRequest request) {
-        String username = user.getEmail();
-        String password = user.getPassword();
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
-
-        request.getSession();
-
-        token.setDetails(new WebAuthenticationDetails(request));
-        Authentication authenticatedUser = authenticationManager.authenticate(token);
-
-        SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
-
     }
 
     private HashMap<String, String> getErrors(BindingResult bindingResult) {
@@ -97,7 +87,7 @@ public class RegistrationController {
 
     private void isExist(UserRegistrationForm userRegistrationForm, Errors errors){
         if (userService.findByEmail(userRegistrationForm.getEmail()) != null)
-            errors.rejectValue("email", "this email already use");
+            errors.rejectValue("email", "email", "this email already use");
     }
 
     private void isPasswordEquals(UserRegistrationForm userRegistrationForm, BindingResult bindingResult) {
