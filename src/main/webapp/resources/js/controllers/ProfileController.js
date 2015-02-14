@@ -2,7 +2,7 @@
  * Created by ElessarST on 14.02.2015.
  */
 
-app.controller('ProfileController', function($scope, $routeParams, $http, SignInInfo, UserApiService){
+app.controller('ProfileController', function($scope, $routeParams, $http, SignInInfo, UserApiService, WallApiService){
     var profileId;
     function initialize(){
         profileId = $routeParams.profileId;
@@ -11,6 +11,11 @@ app.controller('ProfileController', function($scope, $routeParams, $http, SignIn
         $scope.incomeFriendRequests = [];
         $scope.outcomeFriendRequests = [];
         $scope.friends = [];
+        $scope.newPost = {
+            text: "",
+            profileId: profileId
+        };
+        $scope.posts = [];
         $scope.myProfile = !!(SignInInfo.isLogin() && profileId == SignInInfo.getUser().userId);
         if ($scope.myProfile){
             UserApiService.getInFriendRequests().success(function(data){
@@ -26,6 +31,11 @@ app.controller('ProfileController', function($scope, $routeParams, $http, SignIn
         }
         UserApiService.getAllFriends(profileId).success(function(data){
             $scope.friends = data
+        }).error(function(data){
+            console.log(data);
+        });
+        WallApiService.getAllPost(profileId).success(function(data){
+            $scope.posts = data
         }).error(function(data){
             console.log(data);
         });
@@ -79,6 +89,38 @@ app.controller('ProfileController', function($scope, $routeParams, $http, SignIn
         }).error(function(data){
             console.log(data);
         })
-    }
+    };
+
+    $scope.addPost = function(){
+        WallApiService.addPost($scope.newPost).success(function(data){
+            console.log(data)
+        }).error(function(data){
+            console.log(data)
+        });
+    };
+
+    $scope.deletePost = function(index){
+        WallApiService.deletePost($scope.posts[index].id).success(function(data){
+            console.log(data)
+        }).error(function(data){
+            console.log(data)
+        });
+    };
+
+    $scope.editPost = function(index){
+        WallApiService.editPost($scope.posts[index].id, {text: $scope.posts[index].text}).success(function(data){
+            console.log(data)
+        }).error(function(data){
+            console.log(data)
+        });
+    };
+
+    $scope.getPost = function(index){
+        WallApiService.getPost($scope.posts[index].id).success(function(data){
+            console.log(data)
+        }).error(function(data){
+            console.log(data)
+        });
+    };
 });
 
