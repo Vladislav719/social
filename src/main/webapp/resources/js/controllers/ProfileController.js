@@ -16,19 +16,7 @@ app.controller('ProfileController', function($scope, $routeParams, $http, SignIn
             profileId: profileId
         };
         $scope.posts = [];
-        $scope.myProfile = !!(SignInInfo.isLogin() && profileId == SignInInfo.getUser().userId);
-        if ($scope.myProfile){
-            UserApiService.getInFriendRequests().success(function(data){
-                $scope.incomeFriendRequests = data
-            }).error(function(data){
-                console.log(data);
-            });
-            UserApiService.getOutFriendRequests().success(function(data){
-                $scope.outcomeFriendRequests = data
-            }).error(function(data){
-                console.log(data);
-            });
-        }
+
         UserApiService.getAllFriends(profileId).success(function(data){
             $scope.friends = data
         }).error(function(data){
@@ -50,37 +38,6 @@ app.controller('ProfileController', function($scope, $routeParams, $http, SignIn
         UserApiService.addToFriend(profileId);
     };
 
-    $scope.acceptFriendRequest = function(friendId){
-        UserApiService.acceptFriendRequest($scope.incomeFriendRequests[friendId].from.user.userId).success(function(data){
-            console.log(data)
-        }).error(function(data){
-            console.log(data);
-        })
-    };
-
-    $scope.declineFriendRequest = function(friendId){
-        UserApiService.declineFriendRequest($scope.incomeFriendRequests[friendId].from.user.userId).success(function(data){
-            console.log(data)
-        }).error(function(data){
-            console.log(data);
-        })
-    };
-
-    $scope.cancelFriendRequest = function(friendId){
-        UserApiService.cancelFriendRequest($scope.outcomeFriendRequests[friendId].to.user.userId).success(function(data){
-            console.log(data);
-        }).error(function(data){
-            console.log(data);
-        })
-    };
-
-    $scope.removeFromFriends = function(friendId){
-        UserApiService.cancelFriendRequest($scope.friends[friendId].user.userId).success(function(data){
-            console.log(data);
-        }).error(function(data){
-            console.log(data);
-        })
-    };
 
     $scope.updateUserInfo = function(){
         UserApiService.updateUserInfo(profileId, $scope.userInfo).success(function(data){
@@ -122,5 +79,23 @@ app.controller('ProfileController', function($scope, $routeParams, $http, SignIn
             console.log(data)
         });
     };
+
+
+    $scope.cancelFriendRequest = function(friendId){
+        UserApiService.cancelFriendRequest($scope.outcomeFriendRequests[friendId].to.user.userId).success(function(data){
+            console.log(data);
+        }).error(function(data){
+            console.log(data);
+        })
+    };
+
+    $scope.removeFromFriends = function(friendId){
+        UserApiService.cancelFriendRequest($scope.friends[friendId].user.userId).success(function(data){
+            console.log(data);
+        }).error(function(data){
+            console.log(data);
+        })
+    };
+
 });
 

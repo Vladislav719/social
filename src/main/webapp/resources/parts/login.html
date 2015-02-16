@@ -6,7 +6,7 @@
         <span ng-click="shownedBlock = 'login'" class="tab">Sign In</span><!--
             --><span ng-click="shownedBlock = 'registration'" class="tab">Sign Up</span>
         <div class="login-form-wrapper"  ng-show="shownedBlock == 'login'">
-            <form action="/j_spring_security_check" method="post" id="loginForm">
+            <form ng-submit="signIn()" id="loginForm">
                 <input type="text" class="inp" name="j_username" ng-model="authUser.email" placeholder="Email address" required autofocus>
                 <input type="password" class="inp" name="j_password" ng-model="authUser.password" placeholder="Password" required>
 

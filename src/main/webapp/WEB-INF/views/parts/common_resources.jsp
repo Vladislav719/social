@@ -16,6 +16,7 @@
 <%--Services--%>
 <script src="/resources/js/services/SignInInfoService.js"></script>
 <script src="/resources/js/services/StatusService.js"></script>
+<script src="/resources/js/services/UserInfoService.js"></script>
 <%----%>
 <%--API--%>
 <script src="/resources/js/api/ApiHelpService.js"></script>

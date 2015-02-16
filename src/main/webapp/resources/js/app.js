@@ -3,16 +3,15 @@ var app = angular.module('app', ['ngRoute']);
 app.config(function($routeProvider, $locationProvider) {
     $routeProvider
         .when('/', {
-            templateUrl: 'resources/parts/main.html',
-            controller: 'AppController',
-            name: 'main'
+            redirectTo:'/login'
         }).when('/profile/:profileId', {
             templateUrl: 'resources/parts/profile.html',
-            controller: 'ProfileController'
+            controller: 'ProfileController',
+            name: 'auth'
         }).when('/login', {
             templateUrl: 'resources/parts/login.html',
             controller: 'LoginPageController',
-            name: 'login'
+            name: 'notAuth'
         }).otherwise({
             redirectTo:'/login'
         });
@@ -21,12 +20,10 @@ app.config(function($routeProvider, $locationProvider) {
 });
 
 
-
 app.run(function($location, $rootScope, SignInInfo, $http){
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
-        if (!SignInInfo.isLogin()){
-            SignInInfo.updateUser();
-        }
+        if (!SignInInfo.checkRoute(next))
+            $location.path(SignInInfo.redirect());
     });
 });
 

@@ -6,6 +6,7 @@ body,html{
 	height: 100%;
 	font-size: 14px;
 	font-family: Tahoma, serif;
+	cursor: default;
 }
 
 .left_bar{
@@ -381,4 +382,65 @@ form .inp{
 	background-color: #ecf0f1;
 }
 
+.notifications-block-wrapper{
+	overflow: hidden;
+	height: 100%;
+	border-top: 1px solid #bdc3c7;
+	position: relative;
+	overflow: hidden;
+}
 
+
+.notifications-block-wrapper h1{
+	width: 100%;
+	color: #7f8c8d;
+	padding-left: 20px;
+	padding-top: 15px;
+	font-size: 20px;
+}
+
+.notifications-block{
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	overflow-y: auto;
+}
+
+.notification{
+	cursor: default;
+	padding-left: 20px;
+	position: relative;
+	height: 80px;
+	width: 100%;
+
+}
+
+.notification .glyphicon{
+	color: #7f8c8d;
+	height: 16px;
+	width: 16px;
+	margin-right: 20px;
+}
+
+.hover-white:hover{
+	color: #ffffff;
+}
+
+.hover-cursor{
+	cursor: pointer;
+}
+
+.notification .notification-type{
+	color: #7f8c8d;
+	font-size: 16px;
+}
+
+.notification .notification-user{
+	color: #ffffff;
+	font-size: 16px;
+}
+
+.notification .text-message{
+	color: #ffffff;
+	font-size: 14px;
+}

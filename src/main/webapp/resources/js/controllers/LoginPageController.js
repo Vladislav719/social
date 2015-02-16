@@ -7,6 +7,11 @@ app.controller('LoginPageController', ['$scope', '$http', 'SignInInfo', 'UserApi
         $scope.auth = SignInInfo.isLogin();
         $scope.shownedBlock = 'login';
         $scope.user = {};
+        $scope.authUser = {};
+        $scope.signIn = function(){
+            SignInInfo.login($scope.authUser);
+        };
+
         $scope.signUp = function(){
             $scope.errors = '';
             UserApiService.register($scope.user).success(function(data){

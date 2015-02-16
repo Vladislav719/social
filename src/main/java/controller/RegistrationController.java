@@ -63,6 +63,7 @@ public class RegistrationController {
         userRegistrationForm.setPassword(decodePassword(userRegistrationForm.getPassword()));
         Gson gson = gsonService.standardBuilder();
         if (bindingResult.hasErrors()){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return gson.toJson(bindingResultErrorUtil.returnJson(bindingResult));
         } else{
             response.setStatus(HttpServletResponse.SC_CREATED);
