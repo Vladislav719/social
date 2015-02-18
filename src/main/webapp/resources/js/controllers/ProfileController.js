@@ -2,7 +2,8 @@
  * Created by ElessarST on 14.02.2015.
  */
 
-app.controller('ProfileController', function($scope, $routeParams, $http, SignInInfo, UserApiService, WallApiService, FileUploader){
+app.controller('ProfileController', function($scope, $routeParams, $http, SignInInfo,
+                                             UserApiService, WallApiService, FileUploader, LikesApi){
     var profileId;
     $scope.uploader = new FileUploader();
     $scope.uploader.url = '/upload';
@@ -44,7 +45,16 @@ app.controller('ProfileController', function($scope, $routeParams, $http, SignIn
             console.log(data);
         });
         WallApiService.getAllPost(profileId).success(function(data){
-            $scope.posts = data
+            var userId = SignInInfo.getUser().userId;
+            jQuery.each(data, function(index, post){
+                jQuery.each(post.likes, function(index, value){
+                    if (value.owner.user.userId === userId )
+                        post.liked = true;
+                });
+            });
+
+            $scope.posts = data;
+            console.log($scope.posts);
         }).error(function(data){
             console.log(data);
         });
@@ -114,6 +124,25 @@ app.controller('ProfileController', function($scope, $routeParams, $http, SignIn
         }).error(function(data){
             console.log(data)
         });
+    };
+
+    $scope.toggleLike = function(post){
+        var userId = SignInInfo.getUser().userId;
+        if (post.liked){
+            LikesApi.removeLikePost(post.postId).success(function(data){
+                post.liked = false;
+                var ind = -1;
+                $.each(post.likes, function(index, value){
+                    if (value.owner.user.userId == userId)
+                        ind = index;
+                });
+                post.likes.remove(ind, ind);
+            });
+        } else {
+            LikesApi.addLikePost(post.postId).success(function(data){
+                post.liked = true
+            });
+        }
     };
 
 

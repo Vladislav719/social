@@ -81,13 +81,14 @@
         </div>
         <div class="profile-posts">
             <div class="posts-wrapper">
-                <div ng-repeat="post in posts" ng-if="$index % 3 == 0" class="post">
+                <div ng-repeat="post in posts" ng-if="$index % 2 == 0" class="post">
                     <div class="post-header">
                         <h3 class="post-author">{{post.author.firstName}} {{post.author.lastName}}</h3>
                         <div class="post-controls" ng-show="!edit">
                             <i class="glyphicon glyphicon-pencil hover-white hover-cursor" ng-show="post.author.user.userId == currentUser.userId" ng-click="edit = true; temp=post.text"></i>
                             <i class="glyphicon glyphicon-remove hover-white hover-cursor" ng-show="post.author.user.userId == currentUser.userId || myProfile" ng-click="deletePost(post, $index)"></i>
                         </div>
+                        <i class="glyphicon glyphicon-thumbs-up hover-cursor hover-white" ng-click="toggleLike(post)" ng-class="{liked: post.liked==true}"></i>
                     </div>
                     <p ng-show="!edit">{{post.text}}</p>
                     <textarea class="inp" ng-model="post.text" ng-show="edit"/>
@@ -98,24 +99,7 @@
                 </div>
             </div>
             <div class="posts-wrapper">
-                <div ng-repeat="post in posts" ng-if="$index % 3 == 1" class="post">
-                    <div class="post-header">
-                        <h3 class="post-author">{{post.author.firstName}} {{post.author.lastName}}</h3>
-                        <div class="post-controls" ng-show="!edit">
-                            <i class="glyphicon glyphicon-pencil hover-white hover-cursor" ng-show="post.author.user.userId == currentUser.userId" ng-click="edit = true; temp=post.text"></i>
-                            <i class="glyphicon glyphicon-remove hover-white hover-cursor" ng-show="post.author.user.userId == currentUser.userId || myProfile" ng-click="deletePost(post, $index)"></i>
-                        </div>
-                    </div>
-                    <p ng-show="!edit">{{post.text}}</p>
-                    <textarea class="inp" ng-model="post.text" ng-show="edit"/>
-                    <div ng-show="edit">
-                        <i class="glyphicon glyphicon-ok hover-white hover-cursor" ng-click="editPost(post, $index)"></i>
-                        <i class="glyphicon glyphicon-remove hover-white hover-cursor" ng-click="edit = false;post.text=temp;cancelUpdatePost()"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="posts-wrapper">
-                <div ng-repeat="post in posts" ng-if="$index % 3 == 2" class="post">
+                <div ng-repeat="post in posts" ng-if="$index % 2 == 1" class="post">
                     <div class="post-header">
                         <h3 class="post-author">{{post.author.firstName}} {{post.author.lastName}}</h3>
                         <div class="post-controls" ng-show="!edit">

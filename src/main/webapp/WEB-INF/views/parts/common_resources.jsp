@@ -23,6 +23,7 @@
 <script src="/resources/js/api/ApiHelpService.js"></script>
 <script src="/resources/js/api/UserApiService.js"></script>
 <script src="/resources/js/api/WallApiService.js"></script>
+<script src="/resources/js/api/LikesApiService.js"></script>
 <%----%>
 <%--Controllers--%>
 <script src="/resources/js/controllers/AppController.js"></script>

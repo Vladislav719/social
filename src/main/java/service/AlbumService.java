@@ -17,4 +17,6 @@ public interface AlbumService {
     public Photo setUserPhoto(String relativeUrl, UserInfo currentUserInfo);
 
     public Photo addPhotoToAlbum(String photo, Album album);
+
+    public Album createAlbum(String name);
 }

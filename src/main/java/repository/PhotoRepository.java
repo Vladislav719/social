@@ -2,6 +2,9 @@ package repository;
 
 import model.Message;
 import model.Photo;
+import model.PhotoLikes;
+import model.UserInfo;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 /**

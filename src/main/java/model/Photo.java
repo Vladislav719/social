@@ -5,7 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ElessarST on 18.02.2015.
@@ -29,6 +29,10 @@ public class Photo {
 
     @Expose
     private String photoPath;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "photo")
+    @Expose
+    private List<PhotoLikes> likes;
 
     public Photo() {
     }
@@ -65,5 +69,11 @@ public class Photo {
         this.photoPath = photoPath;
     }
 
+    public List<PhotoLikes> getLikes() {
+        return likes;
+    }
 
+    public void setLikes(List<PhotoLikes> likes) {
+        this.likes = likes;
+    }
 }

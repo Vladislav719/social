@@ -1,24 +1,25 @@
 package model;
 
 import com.google.gson.annotations.Expose;
-import controller.api.model.PostForm;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by ElessarST on 15.02.2015.
  */
 @Entity
 @Table(name = "posts")
-public class Post{
+public class Post {
     @Id
     @GeneratedValue(generator="increment")
     @Expose
+    @Column(name = "post_id")
     @GenericGenerator(name="increment", strategy = "increment")
-    private long id;
+    private long postId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id", nullable = false)
@@ -31,6 +32,10 @@ public class Post{
     @Expose
     @NotNull
     private UserInfo profile;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
+    @Expose
+    private List<PostLikes> likes;
 
     @Expose
     private String text;
@@ -49,12 +54,12 @@ public class Post{
         this.createDate = new Date();
     }
 
-    public long getId() {
-        return id;
+    public long getPostId() {
+        return postId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setPostId(long postId) {
+        this.postId = postId;
     }
 
     public UserInfo getAuthor() {
@@ -92,5 +97,13 @@ public class Post{
     public void update(String text) {
         this.text = text;
         this.createDate = new Date();
+    }
+
+    public List<PostLikes> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<PostLikes> likes) {
+        this.likes = likes;
     }
 }

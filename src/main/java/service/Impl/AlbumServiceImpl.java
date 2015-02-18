@@ -10,6 +10,7 @@ import repository.AlbumRepository;
 import repository.PhotoRepository;
 import repository.UserInfoRepository;
 import service.AlbumService;
+import service.UserLoginService;
 import service.UserService;
 
 import java.sql.Date;
@@ -31,6 +32,9 @@ public class AlbumServiceImpl implements AlbumService{
     private UserService userService;
 
     @Autowired
+    private UserLoginService userLoginService;
+
+    @Autowired
     private UserInfoRepository userInfoRepository;
 
     @Override
@@ -49,11 +53,14 @@ public class AlbumServiceImpl implements AlbumService{
         return albumRepository.getDefaultUserAlbum(userInfo.getId());
     }
 
-
     @Override
     public Photo setUserPhoto(String relativeUrl, UserInfo currentUserInfo) {
         Album album = defaultUserAlbum(currentUserInfo);
-        return addPhotoToAlbum(relativeUrl, album);
+        Photo photo = addPhotoToAlbum(relativeUrl, album);
+        UserInfo userInfo = userLoginService.getCurrentUserInfo();
+        userInfo.setPhoto(photo);
+        userInfoRepository.save(userInfo);
+        return photo;
     }
 
     @Override
@@ -62,7 +69,15 @@ public class AlbumServiceImpl implements AlbumService{
         photo.setPhotoPath(relativeUrl);
         photo.setUploadDate(new Date(new java.util.Date().getTime()));
         photo.setAlbum(album);
-        photoRepository.save(photo);
-        return photo;
+        return photoRepository.save(photo);
+    }
+
+    @Override
+    public Album createAlbum(String name) {
+        Album album = new Album();
+        album.setType(0L);
+        album.setAlbumName(name);
+        album.setOwner(userLoginService.getCurrentUserInfo());
+        return albumRepository.save(album);
     }
 }
