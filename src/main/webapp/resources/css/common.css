@@ -33,9 +33,10 @@ body,html{
 	position: absolute;
 	left: 196px;
 	right: 280px;
-	background-color: #ffffff;
+	background: url("/resources/css/images/left_bar_background.gif") repeat;
 	height: 100%;
 	width: auto;
+	border-left: 1px solid black;
 }
 .wrapper{
 	position: relative;
@@ -375,6 +376,7 @@ form .inp{
 }
 
 .btn{
+	border-radius: 0;
 	width: auto;
 	padding: 5px 15px;
 	display: inline-block;
@@ -443,4 +445,161 @@ form .inp{
 .notification .text-message{
 	color: #ffffff;
 	font-size: 14px;
+}
+
+.notification .notification-count{
+	position: absolute;
+	right: 20px;
+	top: 2px;
+	color: #7f8c8d;
+}
+
+.notification{
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.profile-page{
+	width: 100%;
+	margin:auto;
+	margin: 0px;
+
+	padding: 40px;
+	height: 100%;
+	overflow: hidden;
+	min-width: 500px;
+	min-height: 500px;
+	position: relative;
+	display: flex;
+}
+
+.profile-page .profile-photo img{
+	border: 0 solid #7f8c8d;
+	border-radius: 3px;
+	cursor: pointer;
+	width: 240px;
+	margin-bottom: 10px;
+}
+
+.profile-wrapper{
+	display: flex;
+	flex-direction: column;
+	width: 100%
+}
+
+.profile-body{
+	display: flex;
+	justify-content: space-around;
+	align-items: stretch;
+	flex-direction: row;
+	flex-width: wrap;
+	width: 100%;
+}
+
+.profile-page .profile-photo{
+	flex-basis: 200px;
+	flex-grow: 2;
+}
+
+.profile-page .profile-info{
+	flex-basis: 200px;
+	flex-grow: 3;
+	margin-left: 50px;
+	float: left;
+}
+
+.profile-page .profile-info h1{
+	font-size: 38px;
+	color: white;
+	margin-top: 0 !important;
+	font-family: 'Patrick Hand SC', cursive;
+	text-align: center;
+}
+
+.profile-page .profile-info td{
+	color: #ffffff;
+	font-size: 20px;
+	padding-right: 20px;
+}
+
+.profile-page .profile-info td:first-child{
+	min-width: 150px;
+}
+
+.profile-page textarea{
+	resize:none;
+	max-width: 240px;
+	width: 240px;
+	min-height: 100px;
+}
+
+.profile-page .btn{
+	color: #080808;
+}
+
+.profile-posts{
+	margin-top: 50px;
+	display: inline-flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.profile-posts h3,
+.profile-posts p,
+.profile-posts span{
+	color: #ffffff;
+}
+
+.post{
+	padding: 5px 15px 5px 5px;
+}
+
+.posts-wrapper{
+	width: 32%;
+}
+
+.post-header{
+	position: relative;
+}
+
+.post-controls{
+	position: absolute;
+	right: 10px;
+	top: 0px;
+}
+
+.post textarea{
+	margin-left: 0;
+}
+
+.add-post textarea{
+	margin-top: 10px;
+	display: block;
+
+}
+
+.btn-wrap{
+	display: inline-flex;
+	align-items: stretch;
+	justify-content: space-between;
+	min-width: 240px;
+}
+.btn-wrap .btn{
+	width: 50%;
+	margin-top: 10px;
+	margin-right: 2px;
+	flex-grow: 1;
+}
+
+.profile-photo .btn{
+	max-width: 240px
+
+}
+
+.full-width{
+	width: 100%;
 }

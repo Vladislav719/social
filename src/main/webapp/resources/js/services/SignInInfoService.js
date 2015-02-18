@@ -32,8 +32,9 @@ app.service('SignInInfo', function($http, $location, UserApiService, UserInfo){
             return user;
         },
         isLogin: function(){
-            if (user == null && localStorage.getItem('social') != null)
-                user = JSON.parse(localStorage.getItem("social"));
+            if (user == null && localStorage.getItem('social') != null){
+                this.setUser(JSON.parse(localStorage.getItem("social")));
+            }
             return !(user == null)
         },
         setUser: function(data){

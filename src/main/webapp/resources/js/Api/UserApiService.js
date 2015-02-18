@@ -14,9 +14,9 @@ app.service('UserApiService', function($http, ApiHelpService){
             return $http.get('/profile/userInfo/' + userId);
         },
 
-        updateUserInfo: function(userId, userInfo){
+        updateUserInfo: function(userInfo){
             delete userInfo.id;
-            return $http.put('/profile/userInfo/' + userId, userInfo);
+            return $http.put('/profile/userInfo', userInfo);
         },
         register: function(user){
             return $http.post('/register_user', user);

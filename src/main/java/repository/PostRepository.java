@@ -11,6 +11,6 @@ import java.util.List;
  */
 public interface PostRepository extends CrudRepository<Post, Long> {
 
-    @Query("Select post from Post post where post.profile.user.id = ?1 order by post.createDate")
+    @Query("Select post from Post post where post.profile.user.id = ?1 order by post.createDate desc")
     List<Post> findProfilePosts(Long profileId);
 }

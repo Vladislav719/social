@@ -1,44 +1,137 @@
-<div>
-    <input type="text" name="firstName" ng-model="userInfo.firstName" class="inp"/>
-    <input type="text" name="lastName" ng-model="userInfo.lastName" class="inp"/>
-    <input type="city" name="city" ng-model="userInfo.city" class="inp"/>
-    <button class="btn" ng-click="updateUserInfo()" ng-if="myProfile">Change</button>
+<div class="profile-page">
+    <div class="profile-wrapper">
+        <div class="profile-body">
+            <div class="profile-photo">
+                <img src="{{profile.photo.photoPath}}"/>
+                <div class=photo-choose" ng-if="myProfile" title="Нажмите на меня, для обзора файла">
+                    <input type="file" nv-file-select uploader="uploader"/>
+                    <br>
+                    <button ng-click="updatePhoto()" class="btn full-width" ng-show="uploader.queue.length > 0">Update</button>
+                </div>
+                <div>
+                    <button class="btn full-width" ng-click="addToFriend()" ng-if="!myProfile">Add To Friend</button>
+                </div>
+                <div class="add-post">
+                    <textarea ng-show="addPostEnable" ng-model="newPost.text"></textarea>
+                    <div class="btn-wrap">
+                        <button class="btn" ng-show="!addPostEnable" ng-click="addPostEnable = true">Add post</button>
+                        <button class="btn" ng-show="addPostEnable" ng-click="addPost();addPostEnable=false">Add post</button>
+                        <button class="btn"  ng-show="addPostEnable == true" ng-click="newPost.text='';addPostEnable=false">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-info">
+            <i ng-show="myProfile && !enableEdit" class="glyphicon glyphicon-pencil hover-cursor hover-white " style="float: right" ng-show="!enableEdit" ng-click="enableEdit = !enableEdit"></i>
+            <h1> <span ng-show="!enableEdit">{{profile.firstName}} {{profile.lastName}}</span></h1>
 
-    <button class="btn" ng-click="addToFriend()" ng-if="!myProfile">Add To Friend</button>
+            <table>
+                <tbody>
+                    <tr ng-show="enableEdit">
+                        <td>First name</td>
+                        <td>
+                            <input class="inp"  ng-model="profile.firstName" >
+                        </td>
+                    </tr>
+                    <tr ng-show="enableEdit">
+                        <td>Last name</td>
+                        <td>
+                            <input class="inp"  ng-model="profile.lastName" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Birth date</td>
+                        <td>
+                            <span ng-show="!enableEdit">{{profile.birthDate | date : 'longDate'}}</span>
+                            <input class="inp" type="date" ng-model="profile.birthDate" ng-show="enableEdit">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>City</td>
+                        <td>
+                            <span ng-show="!enableEdit">{{profile.city}}</span>
+                            <input class="inp" ng-model="profile.city" ng-show="enableEdit">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Phone number</td>
+                        <td>
+                            <span ng-show="!enableEdit">{{profile.phoneNumber}}</span>
+                            <input class="inp" ng-model="profile.phoneNumber" ng-show="enableEdit">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>About me</td>
+                        <td>
+                            <span ng-show="!enableEdit">{{profile.aboutMe}}</span>
+                            <textarea class="inp" ng-model="profile.aboutMe" ng-show="enableEdit"/>
+                        </td>
+                    </tr>
+                    <tr ng-show="enableEdit">
+                        <td>
+                            <i class="glyphicon glyphicon-ok hover-white hover-cursor" ng-click="updateUserInfo()"></i>
+                            <i class="glyphicon glyphicon-remove hover-white hover-cursor" ng-click="cancelUpdateUserInfo()"></i>
+                        </td>
+                        <td>
 
-    Income:
-    <br>
-    <div ng-repeat="inRequest in incomeFriendRequests">
-        {{inRequest.from}}
-        <button class="btn" ng-click="acceptFriendRequest($index)">Accept</button>
-        <button class="btn" ng-click="declineFriendRequest($index)">Decline</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
+        <div class="profile-posts">
+            <div class="posts-wrapper">
+                <div ng-repeat="post in posts" ng-if="$index % 3 == 0" class="post">
+                    <div class="post-header">
+                        <h3 class="post-author">{{post.author.firstName}} {{post.author.lastName}}</h3>
+                        <div class="post-controls" ng-show="!edit">
+                            <i class="glyphicon glyphicon-pencil hover-white hover-cursor" ng-show="post.author.user.userId == currentUser.userId" ng-click="edit = true; temp=post.text"></i>
+                            <i class="glyphicon glyphicon-remove hover-white hover-cursor" ng-show="post.author.user.userId == currentUser.userId || myProfile" ng-click="deletePost(post, $index)"></i>
+                        </div>
+                    </div>
+                    <p ng-show="!edit">{{post.text}}</p>
+                    <textarea class="inp" ng-model="post.text" ng-show="edit"/>
+                    <div ng-show="edit">
+                        <i class="glyphicon glyphicon-ok hover-white hover-cursor" ng-click="editPost(post, $index);edit = false;"></i>
+                        <i class="glyphicon glyphicon-remove hover-white hover-cursor" ng-click="edit = false;post.text=temp;cancelUpdatePost()"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="posts-wrapper">
+                <div ng-repeat="post in posts" ng-if="$index % 3 == 1" class="post">
+                    <div class="post-header">
+                        <h3 class="post-author">{{post.author.firstName}} {{post.author.lastName}}</h3>
+                        <div class="post-controls" ng-show="!edit">
+                            <i class="glyphicon glyphicon-pencil hover-white hover-cursor" ng-show="post.author.user.userId == currentUser.userId" ng-click="edit = true; temp=post.text"></i>
+                            <i class="glyphicon glyphicon-remove hover-white hover-cursor" ng-show="post.author.user.userId == currentUser.userId || myProfile" ng-click="deletePost(post, $index)"></i>
+                        </div>
+                    </div>
+                    <p ng-show="!edit">{{post.text}}</p>
+                    <textarea class="inp" ng-model="post.text" ng-show="edit"/>
+                    <div ng-show="edit">
+                        <i class="glyphicon glyphicon-ok hover-white hover-cursor" ng-click="editPost(post, $index)"></i>
+                        <i class="glyphicon glyphicon-remove hover-white hover-cursor" ng-click="edit = false;post.text=temp;cancelUpdatePost()"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="posts-wrapper">
+                <div ng-repeat="post in posts" ng-if="$index % 3 == 2" class="post">
+                    <div class="post-header">
+                        <h3 class="post-author">{{post.author.firstName}} {{post.author.lastName}}</h3>
+                        <div class="post-controls" ng-show="!edit">
+                            <i class="glyphicon glyphicon-pencil hover-white hover-cursor" ng-show="post.author.user.userId == currentUser.userId" ng-click="edit = true; temp=post.text"></i>
+                            <i class="glyphicon glyphicon-remove hover-white hover-cursor" ng-show="post.author.user.userId == currentUser.userId || myProfile" ng-click="deletePost(post, $index)"></i>
+                        </div>
+                    </div>
+                    <p ng-show="!edit">{{post.text}}</p>
+                    <textarea class="inp" ng-model="post.text" ng-show="edit"/>
+                    <div ng-show="edit">
+                        <i class="glyphicon glyphicon-ok hover-white hover-cursor" ng-click="editPost(post, $index)"></i>
+                        <i class="glyphicon glyphicon-remove hover-white hover-cursor" ng-click="edit = false;post.text=temp;cancelUpdatePost()"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
-
-    Outcome:
-    <div ng-repeat="outRequest in outcomeFriendRequests">
-        {{outRequest.from}}
-        <button class="btn" ng-click="cancelFriendRequest($index)">Decline</button>
-    </div>
-    <br>
-    Friends
-    <div ng-repeat="friend in friends">
-        {{friend}}
-        <button class="btn" ng-click="removeFromFriends($index)">Decline</button>
-    </div>
-    <br>
-    Posts:
-    <div ng-repeat="post in posts">
-        {{post}}
-        <br/>
-        <textarea ng-model="post.text"/>
-        <br/>
-        <button class="btn" ng-click="editPost($index)">Edit</button>
-        <button class="btn" ng-click="deletePost($index)">Delete</button>
-    </div>
-
-    <br/>
-    <textarea ng-model="newPost.text"/>
-    <br/>
-    <button class="btn" ng-click="addPost()">AddPost</button>
-
 </div>

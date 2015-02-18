@@ -13,7 +13,7 @@ app.controller('AppController', ['$scope', '$http',  '$location', 'SignInInfo','
 
         var updateCurrentNotification = function(){
             $scope.currentNotification = UserInfo.getCurrentNotification().from;
-            $scope.currentNotificationId = UserInfo.getCurrentNotificationId().from;
+            $scope.currentNotificationId = UserInfo.getCurrentNotificationId();
         };
 
         UserInfo.registerIncomeCallback(updateIncomeFriendRequests);

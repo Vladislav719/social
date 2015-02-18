@@ -2,6 +2,7 @@ package service;
 
 import com.google.gson.Gson;
 import model.User;
+import model.UserInfo;
 import org.springframework.validation.BindingResult;
 
 /**
@@ -12,6 +13,8 @@ public interface UserLoginService {
     public boolean isAuthenticated();
 
     public User getCurrentUser();
+
+    public UserInfo getCurrentUserInfo();
 
     public boolean isCurrentUser(long profileId);
 

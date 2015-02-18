@@ -1,12 +1,18 @@
 package config;
 
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
+import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.filter.HttpPutFormContentFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import javax.servlet.Filter;
+import javax.servlet.*;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 public class WebAppInitializer extends
@@ -29,6 +35,21 @@ public class WebAppInitializer extends
     public String[] getServletMappings() {
 		return new String[] { "/" };
 	}
+
+    @Override
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+        String path = "/resources/tmp/";
+        File dirPath = new File(path);
+        if (!dirPath.exists()) {
+            dirPath.mkdirs();
+        }
+        MultipartConfigElement multipartConfigElement =
+                new MultipartConfigElement(dirPath.getAbsolutePath(),
+                        10 * 1024 * 1024, 10 * 1024 * 1024 * 2, 10 * 1024 * 1024 / 2);
+
+        registration.setMultipartConfig(multipartConfigElement);
+
+    }
 
     @Override
     protected Filter[] getServletFilters() {

@@ -68,6 +68,7 @@ public class RegistrationController {
         } else{
             response.setStatus(HttpServletResponse.SC_CREATED);
             User newUser = userService.createUser(userRegistrationForm);
+            userService.addDefaultAlbum(newUser);
             return gson.toJson(newUser);
         }
     }

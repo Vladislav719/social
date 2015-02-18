@@ -20,4 +20,6 @@ public interface UserService {
     public UserInfo getUserInfo(Long profileId);
 
     public UserInfo updateUserInfo(UserInfoForm userInfoForm, long profileId);
+
+    public User addDefaultAlbum(User newUser);
 }

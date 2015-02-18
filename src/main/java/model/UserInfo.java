@@ -3,10 +3,15 @@ package model;
 import com.google.gson.annotations.Expose;
 import controller.api.model.UserInfoForm;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Aydar on 25.11.2014.
@@ -43,9 +48,22 @@ public class UserInfo {
     @Expose
     private String phoneNumber;
 
-    @Column(name = "photo_path")
+    @Column(name = "birth_date")
     @Expose
-    private String photoPath;
+    private Date birthDate;
+
+    @Column(name = "about_me")
+    @Expose
+    private String aboutMe;
+
+    @OneToOne
+    @JoinColumn(name= "photo_id")
+    @Expose
+    private Photo photo;
+
+    @OneToMany(mappedBy = "owner")
+    @Expose
+    private List<Album> albums;
 
     public UserInfo() {
     }
@@ -103,18 +121,59 @@ public class UserInfo {
         this.lastActivity = lastActivity;
     }
 
-    public String getPhotoPath() {
-        return photoPath;
+    public Photo getPhoto() {
+        return photo;
     }
 
-    public void setPhotoPath(String photoPath) {
-        this.photoPath = photoPath;
+    public void setPhoto(Photo photo) {
+        this.photo = photo;
     }
 
     public UserInfo update(UserInfoForm userInfoForm) {
         this.firstName = userInfoForm.getFirstName();
         this.lastName = userInfoForm.getLastName();
         this.city = userInfoForm.getCity();
+        this.phoneNumber = userInfoForm.getPhoneNumber();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        java.util.Date date = null;
+        try {
+            date = format.parse(userInfoForm.getBirthDate());
+        } catch (Exception e) {}
+        this.setBirthDate(new Date(date.getTime()));
+        this.aboutMe = userInfoForm.getAboutMe();
         return this;
     }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getAboutMe() {
+        return aboutMe;
+    }
+
+    public void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
+    }
+    public List<Album> getAlbums() {
+        return albums;
+    }
+
+    public void setAlbums(List<Album> albums) {
+        this.albums = albums;
+    }
+
+
 }

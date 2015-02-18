@@ -61,7 +61,7 @@ public class WallsApi {
     }
 
     @RequestMapping(value = "/walls/edit/{postId}", method = RequestMethod.PUT)
-    public @ResponseBody Object deletePost(@PathVariable Long postId,
+    public @ResponseBody Object editPost(@PathVariable Long postId,
                                            @RequestBody @Valid PostEdit postEdit,
                                            BindingResult bindingResult, HttpServletResponse response){
         User currentUser = userLoginService.getCurrentUser();
@@ -78,7 +78,7 @@ public class WallsApi {
         post = postService.editPost(postId, postEdit);
         if (post == null)
             return gsonService.error("Post doesn't exist");
-        return gsonService.success("Post successfully removed");
+        return gsonService.standardBuilder().toJson(post);
     }
 
     @RequestMapping(value = "/walls/get/{postId}", method = RequestMethod.GET)

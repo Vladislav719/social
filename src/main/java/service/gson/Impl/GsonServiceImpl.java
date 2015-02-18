@@ -20,6 +20,15 @@ public class GsonServiceImpl implements GsonService {
                 .create();
     }
 
+    @Override
+    public Gson builderWithDate() {
+        return new GsonBuilder()
+                .setPrettyPrinting()
+                .excludeFieldsWithoutExposeAnnotation()
+                .setDateFormat("yyyy-MM-dd").create();
+    }
+
+
     public String error(String errorMessage){
         HashMap<String, String> error = new HashMap<>();
         error.put("error", errorMessage);

@@ -2,12 +2,33 @@
  * Created by ElessarST on 14.02.2015.
  */
 
-app.controller('ProfileController', function($scope, $routeParams, $http, SignInInfo, UserApiService, WallApiService){
+app.controller('ProfileController', function($scope, $routeParams, $http, SignInInfo, UserApiService, WallApiService, FileUploader){
     var profileId;
+    $scope.uploader = new FileUploader();
+    $scope.uploader.url = '/upload';
+    $scope.uploader.onSuccessItem = function(fileItem, response){
+        $scope.profile.photo = response;
+    };
+    $scope.updatePhoto = function(){
+        $scope.uploader.uploadAll();
+    };
+
+    $scope.enableEdit = false;
+    function cloneProfile(first, second){
+        first.city = second.city;
+        first.birthDate = second.birthDate;
+        first.phoneNumber = second.phoneNumber;
+        first.aboutMe = second.aboutMe;
+        first.firstName = second.firstName;
+        first.lastName = second.lastName;
+    }
+
     function initialize(){
         profileId = $routeParams.profileId;
         $scope.profileId = profileId;
         $scope.userInfo = {};
+        $scope.myProfile = profileId == SignInInfo.getUser().userId;
+        $scope.currentUser = SignInInfo.getUser();
         $scope.incomeFriendRequests = [];
         $scope.outcomeFriendRequests = [];
         $scope.friends = [];
@@ -31,8 +52,16 @@ app.controller('ProfileController', function($scope, $routeParams, $http, SignIn
     initialize();
     UserApiService.getUserInfo(profileId)
         .success(function(data){
-            $scope.userInfo = data;
+            $scope.profile = data;
+            console.log(data);
+            $scope.profileHistory ={};
+            cloneProfile($scope.profileHistory, $scope.profile);
         });
+
+    $scope.cancelUpdateUserInfo = function(){
+        cloneProfile($scope.profile, $scope.profileHistory);
+        $scope.enableEdit = false;
+    };
 
     $scope.addToFriend = function(){
         UserApiService.addToFriend(profileId);
@@ -40,9 +69,13 @@ app.controller('ProfileController', function($scope, $routeParams, $http, SignIn
 
 
     $scope.updateUserInfo = function(){
-        UserApiService.updateUserInfo(profileId, $scope.userInfo).success(function(data){
+        var profile = $scope.profile;
+        delete profile.user;
+        UserApiService.updateUserInfo( profile).success(function(data){
             console.log(data);
-            $scope.userInfo = data;
+            $scope.profile = data;
+            cloneProfile($scope.profileHistory, $scope.profile);
+            $scope.enableEdit = false;
         }).error(function(data){
             console.log(data);
         })
@@ -50,23 +83,26 @@ app.controller('ProfileController', function($scope, $routeParams, $http, SignIn
 
     $scope.addPost = function(){
         WallApiService.addPost($scope.newPost).success(function(data){
+            $scope.posts.unshift(data);
             console.log(data)
         }).error(function(data){
             console.log(data)
         });
     };
 
-    $scope.deletePost = function(index){
-        WallApiService.deletePost($scope.posts[index].id).success(function(data){
+    $scope.deletePost = function(post, index){
+        WallApiService.deletePost(post.id).success(function(data){
+            $scope.posts.remove(index);
             console.log(data)
         }).error(function(data){
             console.log(data)
         });
     };
 
-    $scope.editPost = function(index){
-        WallApiService.editPost($scope.posts[index].id, {text: $scope.posts[index].text}).success(function(data){
-            console.log(data)
+    $scope.editPost = function(post, index){
+        WallApiService.editPost(post.id, {text: post.text}).success(function(data){
+            $scope.posts[index] = data;
+            console.log(data);
         }).error(function(data){
             console.log(data)
         });

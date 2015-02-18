@@ -1,4 +1,10 @@
-var app = angular.module('app', ['ngRoute']);
+Array.prototype.remove = function(from, to) {
+    var rest = this.slice((to || from) + 1 || this.length);
+    this.length = from < 0 ? this.length + from : from;
+    return this.push.apply(this, rest);
+};
+
+var app = angular.module('app', ['ngRoute', 'angularFileUpload']);
 
 app.config(function($routeProvider, $locationProvider) {
     $routeProvider
@@ -27,3 +33,19 @@ app.run(function($location, $rootScope, SignInInfo, $http){
     });
 });
 
+
+app.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);

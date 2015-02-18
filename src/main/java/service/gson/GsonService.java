@@ -11,4 +11,6 @@ public interface GsonService {
     public String error(String errorMessage);
 
     public String success(String successMessage);
+
+    public Gson builderWithDate();
 }

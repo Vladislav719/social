@@ -2,6 +2,7 @@ package service.Impl;
 
 import com.google.gson.Gson;
 import model.User;
+import model.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,6 +43,11 @@ public class UserLoginServiceImpl  implements UserLoginService{
     public User getCurrentUser() {
         org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return  userService.findByEmail(user.getUsername());
+    }
+
+    @Override
+    public UserInfo getCurrentUserInfo() {
+        return userService.getUserInfo(getCurrentUser().getUserId());
     }
 
     @Override

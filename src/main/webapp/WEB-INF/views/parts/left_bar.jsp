@@ -34,6 +34,9 @@
             <h1>Notifications</h1>
             <div class="notifications-block">
                 <div class="notification">
+                    <div class="notification-count">
+                        {{(currentNotificationId + 1) + ' / ' + incomeFriendRequests.length}}
+                    </div>
                     <div class="notification-type">Friend requests</div>
                     <div class="notification-user">{{currentNotification.firstName + " " + currentNotification.lastName}}</div>
                     <i class="glyphicon glyphicon-ok hover-white hover-cursor" ng-click="acceptFriendRequest(currentNotificationId)"></i>

@@ -27,6 +27,8 @@ app.service('UserInfo', function ($http, $location, UserApiService) {
             return currentNotificationId;
         },
         getCurrentNotification: function(){
+            if (currentNotification === null)
+                return {from: {}};
             return currentNotification;
         },
         registerIncomeCallback: function (callback) {
