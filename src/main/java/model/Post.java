@@ -33,7 +33,7 @@ public class Post {
     @NotNull
     private UserInfo profile;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post", cascade = CascadeType.ALL)
     @Expose
     private List<PostLikes> likes;
 

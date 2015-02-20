@@ -1,30 +1,38 @@
 <div class="profile-page">
-    <div class="profile-wrapper">
+    <div class="profile-wrapper" ng-hide="isGalleryOpened">
         <div class="profile-body">
             <div class="profile-photo">
-                <img src="{{profile.photo.photoPath}}"/>
-                <div class=photo-choose" ng-if="myProfile" title="Нажмите на меня, для обзора файла">
-                    <input type="file" nv-file-select uploader="uploader"/>
+                <img src="{{profilePhoto.photoPath}}"/>
+                <div class=photo-choose" ng-if="myProfile" >
+                    <input id="mainPhotoUploader" type="file" nv-file-select uploader="uploader" class="photoUploader"/>
                     <br>
-                    <button ng-click="updatePhoto()" class="btn full-width" ng-show="uploader.queue.length > 0">Update</button>
+                    <label for="mainPhotoUploader" class=" btn full-width" ng-hide="uploader.queue.length > 0">
+                        New Photo
+                    </label>
+                    <button ng-click="updatePhoto()" class="btn full-width" ng-show="uploader.queue.length > 0">Update photo</button>
                 </div>
                 <div>
                     <button class="btn full-width" ng-click="addToFriend()" ng-if="!myProfile">Add To Friend</button>
                 </div>
+                <div class="profile-block-div">
+                    <button class="btn full-width" ng-click="isGalleryOpened = true">
+                        View Photos
+                    </button>
+                </div>
                 <div class="add-post">
                     <textarea ng-show="addPostEnable" ng-model="newPost.text"></textarea>
+                    <button class="btn full-width" ng-show="!addPostEnable" ng-click="addPostEnable = true">Add post</button>
                     <div class="btn-wrap">
-                        <button class="btn" ng-show="!addPostEnable" ng-click="addPostEnable = true">Add post</button>
                         <button class="btn" ng-show="addPostEnable" ng-click="addPost();addPostEnable=false">Add post</button>
                         <button class="btn"  ng-show="addPostEnable == true" ng-click="newPost.text='';addPostEnable=false">Cancel</button>
                     </div>
                 </div>
             </div>
             <div class="profile-info">
-            <i ng-show="myProfile && !enableEdit" class="glyphicon glyphicon-pencil hover-cursor hover-white " style="float: right" ng-show="!enableEdit" ng-click="enableEdit = !enableEdit"></i>
-            <h1> <span ng-show="!enableEdit">{{profile.firstName}} {{profile.lastName}}</span></h1>
+                <i ng-show="myProfile && !enableEdit" class="glyphicon glyphicon-pencil hover-cursor hover-white " style="float: right" ng-show="!enableEdit" ng-click="enableEdit = !enableEdit"></i>
+                <h1> <span ng-show="!enableEdit">{{profile.firstName}} {{profile.lastName}}</span></h1>
 
-            <table>
+                <table>
                 <tbody>
                     <tr ng-show="enableEdit">
                         <td>First name</td>
@@ -77,7 +85,7 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
+            </div>
         </div>
         <div class="profile-posts">
             <div class="posts-wrapper">
@@ -106,16 +114,54 @@
                             <i class="glyphicon glyphicon-pencil hover-white hover-cursor" ng-show="post.author.user.userId == currentUser.userId" ng-click="edit = true; temp=post.text"></i>
                             <i class="glyphicon glyphicon-remove hover-white hover-cursor" ng-show="post.author.user.userId == currentUser.userId || myProfile" ng-click="deletePost(post, $index)"></i>
                         </div>
+                        <i class="glyphicon glyphicon-thumbs-up hover-cursor hover-white" ng-click="toggleLike(post)" ng-class="{liked: post.liked==true}"></i>
                     </div>
                     <p ng-show="!edit">{{post.text}}</p>
                     <textarea class="inp" ng-model="post.text" ng-show="edit"/>
                     <div ng-show="edit">
-                        <i class="glyphicon glyphicon-ok hover-white hover-cursor" ng-click="editPost(post, $index)"></i>
+                        <i class="glyphicon glyphicon-ok hover-white hover-cursor" ng-click="editPost(post, $index);edit = false;"></i>
                         <i class="glyphicon glyphicon-remove hover-white hover-cursor" ng-click="edit = false;post.text=temp;cancelUpdatePost()"></i>
                     </div>
                 </div>
             </div>
 
+        </div>
+    </div>
+    <div class="gallery" ng-show="isGalleryOpened">
+        <div class="container slider">
+            <img ng-repeat="photo in page.photos" class="slide" ng-show="page.isActive($index)" ng-src="{{photo.src}}" />
+            <i class="glyphicon glyphicon-arrow-left hover-white hover-cursor arrows" ng-click="page.decPhoto()"></i>
+            <i class="glyphicon glyphicon-arrow-right hover-white hover-cursor arrows" ng-click="page.incPhoto()"></i>
+            <ul class="nav">
+                <li ng-repeat="photo in page.photos" ng-class="{'active':isActive($index)}">
+                    <img src="{{photo.src}}" alt="{{photo.desc}}" title="{{photo.desc}}" ng-click="showPhoto($index);" />
+                </li>
+            </ul>
+        </div>
+        <!--<div class="gallery-container">
+            <img src="{{page.mainImage.photoPath}}" class="main-img">
+        </div>
+        <div class="slider-container">
+            <div class="slider">
+                <i class="glyphicon glyphicon-arrow-left hover-white hover-cursor arrows" ng-click="page.decPhoto()"></i>
+                <span ng-repeat="photo in profile.photo" ng-switch on="$index >= page.from && $index <= page.from + page.step">
+                    <img  ng-switch-when="true"
+                         class="small-img my-animation" ng-click="page.mainImage=photo" src="{{photo.photoPath}}"/>
+                </span>
+                <i class="glyphicon glyphicon-arrow-right hover-white hover-cursor arrows" ng-click="page.incPhoto()"></i>
+            </div>
+
+        </div>-->
+        <div>
+            <button class="btn" ng-click="isGalleryOpened = false">Close</button>
+            <div class=photo-choose" ng-if="myProfile" >
+                <input id="photoUploader" type="file" nv-file-select uploader="photoUploader" class="photoUploader"/>
+                <br>
+                <label for="photoUploader" class=" btn full-width" ng-hide="photoUploader.queue.length > 0">
+                    New Photo
+                </label>
+                <button ng-click="addPhoto()" class="btn full-width" ng-show="photoUploader.queue.length > 0">Add photo</button>
+            </div>
         </div>
     </div>
 </div>

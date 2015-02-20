@@ -2,6 +2,7 @@ package service;
 
 import controller.api.model.UserInfoForm;
 import controller.model.UserRegistrationForm;
+import model.Photo;
 import model.User;
 import model.UserInfo;
 
@@ -21,5 +22,7 @@ public interface UserService {
 
     public UserInfo updateUserInfo(UserInfoForm userInfoForm, long profileId);
 
-    public User addDefaultAlbum(User newUser);
+    public Photo setUserPhoto(String relativeUrl, UserInfo currentUserInfo);
+
+    public Photo getMainPhoto(long id);
 }

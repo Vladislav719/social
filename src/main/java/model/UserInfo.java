@@ -2,6 +2,8 @@ package model;
 
 import com.google.gson.annotations.Expose;
 import controller.api.model.UserInfoForm;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,7 +20,7 @@ import java.util.Locale;
  */
 @Entity
 @Table(name = "user_info")
-public class UserInfo {
+public class    UserInfo {
     @Id
     @GeneratedValue(generator="increment")
     @GenericGenerator(name="increment", strategy = "increment")
@@ -28,7 +30,6 @@ public class UserInfo {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-    @Expose
     private User user;
 
     @Column(name = "first_name")
@@ -56,14 +57,14 @@ public class UserInfo {
     @Expose
     private String aboutMe;
 
-    @OneToOne
-    @JoinColumn(name= "photo_id")
+    @OneToMany(mappedBy= "owner", fetch = FetchType.LAZY)
     @Expose
-    private Photo photo;
+    private List<Photo> photo;
 
-    @OneToMany(mappedBy = "owner")
-    @Expose
-    private List<Album> albums;
+    @OneToOne
+    @Fetch(FetchMode.JOIN)
+    @JoinColumn(name = "photo_id")
+    private Photo mainPhoto;
 
     public UserInfo() {
     }
@@ -121,12 +122,20 @@ public class UserInfo {
         this.lastActivity = lastActivity;
     }
 
-    public Photo getPhoto() {
+    public List<Photo> getPhoto() {
         return photo;
     }
 
-    public void setPhoto(Photo photo) {
+    public void setPhoto(List<Photo> photo) {
         this.photo = photo;
+    }
+
+    public Photo getMainPhoto() {
+        return mainPhoto;
+    }
+
+    public void setMainPhoto(Photo mainPhoto) {
+        this.mainPhoto = mainPhoto;
     }
 
     public UserInfo update(UserInfoForm userInfoForm) {
@@ -167,13 +176,7 @@ public class UserInfo {
     public void setAboutMe(String aboutMe) {
         this.aboutMe = aboutMe;
     }
-    public List<Album> getAlbums() {
-        return albums;
-    }
 
-    public void setAlbums(List<Album> albums) {
-        this.albums = albums;
-    }
 
 
 }

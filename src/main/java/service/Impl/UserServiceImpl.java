@@ -2,14 +2,14 @@ package service.Impl;
 
 import controller.api.model.UserInfoForm;
 import controller.model.UserRegistrationForm;
-import model.Album;
+import model.Photo;
 import model.User;
 import model.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.UserInfoRepository;
 import repository.UserRepository;
-import service.AlbumService;
+import service.PhotoService;
 import service.UserService;
 
 /**
@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     private UserInfoRepository userInfoRepository;
 
     @Autowired
-    AlbumService albumService;
+    private PhotoService photoService;
 
     @Override
     public User getSecureUserByEmail(String email) {
@@ -60,8 +60,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addDefaultAlbum(User newUser) {
-        albumService.createStandardAlbum(newUser);
-        return newUser;
+    public Photo setUserPhoto(String relativeUrl, UserInfo currentUserInfo) {
+        Photo photo = photoService.addPhoto(relativeUrl, currentUserInfo);
+        currentUserInfo.setMainPhoto(photo);
+        userInfoRepository.save(currentUserInfo);
+
+        return photo;
     }
+
+    @Override
+    public Photo getMainPhoto(long id) {
+        return userInfoRepository.getMainPhoto(id);
+    }
+
 }

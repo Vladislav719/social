@@ -17,7 +17,7 @@
     <jsp:include page="parts/left_bar.jsp"/>
     <jsp:include page="parts/right_bar.jsp"/>
     <div class="center">
-      <div ng-view>
+      <div ng-view class="background">
 
       </div>
     </div>

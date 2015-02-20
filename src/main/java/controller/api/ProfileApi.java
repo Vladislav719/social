@@ -5,6 +5,7 @@ import controller.api.model.UserInfoForm;
 import model.Photo;
 import model.User;
 import model.UserInfo;
+import org.omg.CORBA.OBJ_ADAPTER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.core.io.FileSystemResource;
@@ -12,8 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import service.AlbumService;
 import service.BindingResultErrorUtil;
+import service.PhotoService;
 import service.UserLoginService;
 import service.UserService;
 import service.gson.GsonService;
@@ -31,8 +32,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by ElessarST on 14.02.2015.
@@ -40,6 +40,9 @@ import java.util.List;
 @RestController
 @RequestMapping
 public class ProfileApi {
+
+
+    private static final String path = "E:\\Projects\\SocialNetwork\\src\\main\\webapp\\";
 
     @Autowired
     BindingResultErrorUtil bindingResultErrorUtil;
@@ -57,13 +60,21 @@ public class ProfileApi {
     UserLoginService userLoginService;
 
     @Autowired
-    AlbumService albumService;
+    PhotoService photoService;
+
 
     @RequestMapping(value = "/profile/userInfo/{profileId}", method = RequestMethod.GET)
     private @ResponseBody Object getUserInfo(@PathVariable Long profileId){
         UserInfo userInfo = userService.getUserInfo(profileId);
         Gson gson = gsonService.builderWithDate();
-        return gson.toJson(userInfo);
+        return gson.toJson(userWithPhoto(userInfo));
+    }
+
+    private Map<String, Object> userWithPhoto(UserInfo userInfo) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("userInfo", userInfo);
+        map.put("photo", userService.getMainPhoto(userInfo.getId()));
+        return map;
     }
 
     @RequestMapping(value = "/profile/userInfo", method = RequestMethod.PUT)
@@ -86,20 +97,7 @@ public class ProfileApi {
         String name = file.getOriginalFilename();
         if (!file.isEmpty()) {
             try {
-                byte[] bytes = file.getBytes();
-                String webappRoot = servletContext.getRealPath("/");
-                String relativeFolder = "resources" + File.separator
-                        + "images" + File.separator + userLoginService.getCurrentUser().getUserId() + File.separator;
-                if (!Files.exists(Paths.get(webappRoot + relativeFolder)))
-                    Files.createDirectories(Paths.get(webappRoot+relativeFolder));
-                String filename = webappRoot + relativeFolder
-                        + getFileName(file);
-                BufferedOutputStream stream =
-                        new BufferedOutputStream(new FileOutputStream(new File(filename)));
-                stream.write(bytes);
-                stream.close();
-                String relativeUrl = filename.substring((webappRoot).length() - 1);
-                Photo photo = albumService.setUserPhoto(relativeUrl, userLoginService.getCurrentUserInfo());
+                Photo photo = userService.setUserPhoto(savePhoto(file), userLoginService.getCurrentUserInfo());
                 return gsonService.standardBuilder().toJson(photo);
             } catch (Exception e) {
                 return "You failed to upload " + name + " => " + e.getMessage();
@@ -107,6 +105,43 @@ public class ProfileApi {
         } else {
             return "You failed to upload " + name + " because the file was empty.";
         }
+    }
+
+    @RequestMapping(value="/add/photos", method=RequestMethod.POST)
+    public @ResponseBody String savePhotos(@RequestParam("file") MultipartFile file){
+        String name = file.getOriginalFilename();
+        if (!file.isEmpty()) {
+            try {
+                Photo photo = photoService.addPhoto(savePhoto(file), userLoginService.getCurrentUserInfo());
+                return gsonService.standardBuilder().toJson(photo);
+            } catch (Exception e) {
+                return "You failed to upload " + name + " => " + e.getMessage();
+            }
+        } else {
+            return "You failed to upload " + name + " because the file was empty.";
+        }
+    }
+
+    private String savePhoto(MultipartFile file) throws IOException {
+        byte[] bytes = file.getBytes();
+        String webappRoot = servletContext.getRealPath("/");
+        String relativeFolder = "resources" + File.separator
+                + "images" + File.separator + userLoginService.getCurrentUser().getUserId() + File.separator;
+        if (!Files.exists(Paths.get(webappRoot + relativeFolder)))
+            Files.createDirectories(Paths.get(webappRoot+relativeFolder));
+        String filename = webappRoot + relativeFolder
+                + getFileName(file);
+        String copyFileName = path + relativeFolder +getFileName(file);
+        BufferedOutputStream stream =
+                new BufferedOutputStream(new FileOutputStream(new File(filename)));
+        stream.write(bytes);
+        stream.close();
+        if (!Files.exists(Paths.get(path + relativeFolder)))
+            Files.createDirectories(Paths.get(path+relativeFolder));
+        stream = new BufferedOutputStream(new FileOutputStream(new File(copyFileName)));
+        stream.write(bytes);
+        stream.close();
+        return filename.substring((webappRoot).length() - 1);
     }
 
     private String getFileName(MultipartFile file){

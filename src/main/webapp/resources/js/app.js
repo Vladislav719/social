@@ -4,7 +4,7 @@ Array.prototype.remove = function(from, to) {
     return this.push.apply(this, rest);
 };
 
-var app = angular.module('app', ['ngRoute', 'angularFileUpload']);
+var app = angular.module('app', ['ngRoute', 'angularFileUpload', 'ngAnimate']);
 
 app.config(function($routeProvider, $locationProvider) {
     $routeProvider

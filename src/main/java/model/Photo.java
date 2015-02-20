@@ -21,8 +21,8 @@ public class Photo {
     private long photoId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="album_id", nullable = false)
-    private Album album;
+    @JoinColumn(name="user_info_id", nullable = false)
+    private UserInfo owner;
 
     @Expose
     private Date uploadDate;
@@ -30,7 +30,7 @@ public class Photo {
     @Expose
     private String photoPath;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "photo")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "photo", cascade = CascadeType.ALL)
     @Expose
     private List<PhotoLikes> likes;
 
@@ -43,14 +43,6 @@ public class Photo {
 
     public void setPhotoId(long photoId) {
         this.photoId = photoId;
-    }
-
-    public Album getAlbum() {
-        return album;
-    }
-
-    public void setAlbum(Album album) {
-        this.album = album;
     }
 
     public Date getUploadDate() {
@@ -75,5 +67,13 @@ public class Photo {
 
     public void setLikes(List<PhotoLikes> likes) {
         this.likes = likes;
+    }
+
+    public UserInfo getOwner() {
+        return owner;
+    }
+
+    public void setOwner(UserInfo owner) {
+        this.owner = owner;
     }
 }

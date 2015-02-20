@@ -30,13 +30,13 @@ body,html{
 }
 
 .center{
+	border-left: 1px solid #ffffff;
+	background: url("/resources/css/images/left_bar_background.gif") repeat;
 	position: absolute;
 	left: 196px;
 	right: 280px;
-	background: url("/resources/css/images/left_bar_background.gif") repeat;
 	height: 100%;
 	width: auto;
-	border-left: 1px solid black;
 }
 .wrapper{
 	position: relative;
@@ -496,7 +496,7 @@ form .inp{
 	justify-content: space-around;
 	align-items: stretch;
 	flex-direction: row;
-	flex-width: wrap;
+	flex-wrap: wrap;
 	width: 100%;
 }
 
@@ -559,7 +559,7 @@ form .inp{
 }
 
 .posts-wrapper{
-	width: 32%;
+	width: 50%;
 }
 
 .post-header{
@@ -606,4 +606,136 @@ form .inp{
 
 .liked{
 	color: #ffffff;
+}
+
+.photoUploader{
+	position: absolute;
+	left: -500px;
+}
+
+.add-post{
+	margin-top: 10px;
+}
+
+.background{
+	border-left: 1px solid #ffffff;
+	background: url("/resources/css/images/left_bar_background.gif") repeat;
+}
+
+.small-img{
+	height: 100px;
+	cursor: pointer;
+}
+
+img.img-rounded{
+	border-radius: 3px;
+	display: inline-block;
+}
+
+div.profile-block-div{
+	margin-top: 10px;
+}
+
+.gallery{
+	width: 100%;
+}
+
+.gallery-container{
+	display: block;
+	width: 100%;
+	height: auto;
+	margin: 0 auto;
+	margin-bottom: 1em;
+}
+
+.gallery-container img{
+	max-height: 33em;
+	margin: 0 auto;
+	display: block;
+}
+
+.slider-container{
+	display: block;
+	margin: auto;
+}
+
+.slider{
+	display: table;
+	margin: 0 auto;
+	position: relative;
+}
+
+.arrows{
+	font-size: 18px;
+}
+
+
+.my-animation.ng-enter {
+	-webkit-transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+	-moz-transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+	-ms-transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+	-o-transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+	transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+}
+.my-animation.ng-enter-stagger {
+	/* this will have a 100ms delay between each successive leave animation */
+	-webkit-transition-delay: 0.1s;
+	transition-delay: 0.1s;
+
+	/* in case the stagger doesn't work then these two values
+       must be set to 0 to avoid an accidental CSS inheritance */
+	-webkit-transition-duration: 0s;
+	transition-duration: 0s;
+}
+.my-animation.ng-enter.ng-enter-active {
+	/* standard transition styles */
+	left: 100%;
+}
+
+
+.my-animation.ng-leave {
+	/* standard transition code */
+	-webkit-transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+	-moz-transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+	-ms-transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+	-o-transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+	transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+}
+.my-animation.ng-leave-stagger {
+	/* this will have a 100ms delay between each successive leave animation */
+	-webkit-transition-delay: 0.1s;
+	transition-delay: 0.1s;
+
+	/* in case the stagger doesn't work then these two values
+       must be set to 0 to avoid an accidental CSS inheritance */
+	-webkit-transition-duration: 0s;
+	transition-duration: 0s;
+}
+.my-animation.ng-leave.ng-leave-active {
+	/* standard transition styles */
+	left: 0;
+}
+
+.animate-enter,
+.animate-leave
+{
+	-webkit-transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+	-moz-transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+	-ms-transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+	-o-transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+	transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+}
+
+.animate-enter {
+	left: 100%;
+}
+.animate-enter.animate-enter-active {
+	left: 0;
+}
+
+.animate-leave {
+	left: 0;
+}
+.animate-leave.animate-leave-active{
+	left: -100%;
 }

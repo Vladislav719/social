@@ -11,6 +11,7 @@
 <script src="/resources/js/vendors/jquery.min.js"></script>
 <script src="/resources/js/vendors/bootstrap.min.js"></script>
 <script src="/resources/js/vendors/angular.js"></script>
+<script src="/resources/js/vendors/angular-animate.min.js"></script>
 <script src="/resources/js/vendors/angular-route.min.js"></script>
 <script src="/resources/js/vendors/angular-file.js"></script>
 <script src="/resources/js/app.js"></script>

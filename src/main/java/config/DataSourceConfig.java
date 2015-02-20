@@ -16,7 +16,7 @@ public class DataSourceConfig {
         dataSource.setDriverClass("org.postgresql.Driver");
         dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/Social");
         dataSource.setUser("postgres");
-        dataSource.setPassword("MtFbwy57-0");
+        dataSource.setPassword("edmon");
 
         return dataSource;
     }

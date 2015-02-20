@@ -22,7 +22,8 @@ public class WebAppInitializer extends
   //{!begin addToRootContext}
 	@Override
     public Class<?>[] getRootConfigClasses() {
-		return new Class<?>[] { DataSourceConfig.class, PersistenceConfig.class, CoreConfig.class, AppSecurityConfig.class};
+		return new Class<?>[] { DataSourceConfig.class, PersistenceConfig.class, CoreConfig.class,
+                AppSecurityConfig.class, WebSocketConfig.class };
 	}
   //{!end addToRootContext}
 
@@ -43,6 +44,8 @@ public class WebAppInitializer extends
         if (!dirPath.exists()) {
             dirPath.mkdirs();
         }
+        registration.setInitParameter("dispatchOptionsRequest", "true");
+        registration.setAsyncSupported(true);
         MultipartConfigElement multipartConfigElement =
                 new MultipartConfigElement(dirPath.getAbsolutePath(),
                         10 * 1024 * 1024, 10 * 1024 * 1024 * 2, 10 * 1024 * 1024 / 2);
