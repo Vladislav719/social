@@ -54,7 +54,7 @@ public class MessageServiceImpl implements MessagesService {
         message.setFrom(currentUserInfo);
         message.setTo(userService.getUserInfo(id));
         message.setText(text);
-        message.setDate(new Date(new java.util.Date().getTime()));
+        message.setDate(new java.util.Date());
         message.setRead(false);
         return messageRepository.save(message);
     }

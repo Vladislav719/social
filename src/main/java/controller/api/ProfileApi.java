@@ -130,7 +130,7 @@ public class ProfileApi {
     private String savePhoto(MultipartFile file) throws IOException {
         byte[] bytes = file.getBytes();
         String webappRoot = servletContext.getRealPath("/");
-        String relativeFolder = "resources" + File.separator
+        String relativeFolder = File.separator +"resources" + File.separator
                 + "images" + File.separator + userLoginService.getCurrentUser().getUserId() + File.separator;
         if (!Files.exists(Paths.get(webappRoot + relativeFolder)))
             Files.createDirectories(Paths.get(webappRoot+relativeFolder));
@@ -146,7 +146,7 @@ public class ProfileApi {
         stream = new BufferedOutputStream(new FileOutputStream(new File(copyFileName)));
         stream.write(bytes);
         stream.close();
-        return filename.substring((webappRoot).length() - 1);
+        return filename.substring((webappRoot).length());
     }
 
     private String getFileName(MultipartFile file){

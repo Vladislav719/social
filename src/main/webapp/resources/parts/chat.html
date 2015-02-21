@@ -1,17 +1,23 @@
 <div class="message-page">
     <div ng-repeat="message in messages" class="message" ng-class="{my_message: message.to.id == chatId, companion_message: message.from.id == chatId}">
         <div class="message-text">
-            <span ng-class="{not_read: message.read == false}">{{message.text}}</span>
+            <div ng-class="{not_read: message.read == false}">
+                {{message.text}}
+                <div>
+                    {{message.date | date:  'medium'}}
+                </div>
+            </div>
         </div><!--
         -->
         <div class="photo-wrap">
             <div class="photo">
-                <img src="https://pp.vk.me/c624928/v624928966/d10f/H8Iv0AqIMjk.jpg">
+                <img src="{{my.photo.photoPath}}" ng-if="message.to.id == chatId">
+                <img src="{{companion.photo.photoPath}}" ng-if="message.from.id == chatId">
             </div>
         </div>
     </div>
     <form ng-submit="sendMessage()">
-        <input type="text" ng-model="newMessage"/>
-        <button>Send</button>
+        <textarea type="text" class="inp message_area" ng-model="newMessage"/>
+        <button class="btn">Send</button>
     </form>
 </div>

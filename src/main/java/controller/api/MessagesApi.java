@@ -35,7 +35,7 @@ public class MessagesApi {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return gson.error("You're not authorized");
         }
-        return gson.builderWithDate().toJson(messagesService.getDialogs(userLoginService.getCurrentUserInfo()));
+        return gson.builderWithDateAndTime().toJson(messagesService.getDialogs(userLoginService.getCurrentUserInfo()));
     }
 
     @RequestMapping(value = "/messages/{id}", method = RequestMethod.GET)
@@ -44,7 +44,7 @@ public class MessagesApi {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return gson.error("You're not authorized");
         }
-        return gson.builderWithDate().toJson(messagesService.getMessages(userLoginService.getCurrentUserInfo(), id));
+        return gson.builderWithDateAndTime().toJson(messagesService.getMessages(userLoginService.getCurrentUserInfo(), id));
     }
 
     @RequestMapping(value = "/messages/{id}", method = RequestMethod.POST)
@@ -55,7 +55,7 @@ public class MessagesApi {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return gson.error("You're not authorized");
         }
-        return gson.builderWithDate().toJson(messagesService.addMessages(userLoginService.getCurrentUserInfo(), id, message.getText()));
+        return gson.builderWithDateAndTime().toJson(messagesService.addMessages(userLoginService.getCurrentUserInfo(), id, message.getText()));
     }
 
 }

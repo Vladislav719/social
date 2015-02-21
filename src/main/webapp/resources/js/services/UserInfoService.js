@@ -7,12 +7,14 @@ app.service('UserInfo', function ($http, $location, UserApiService) {
     var observerIncomeCallbacks = [];
     var observerOutcomeCallbacks = [];
     var observerNotificationIdCallbacks = [];
+    var observerUserInfo = [];
     var notifyObservers = function (observers) {
         angular.forEach(observers, function (callback) {
             callback();
         });
     };
     var incomeFriendRequests = [];
+    var userInfo = {};
     var outcomeFriendRequests = [];
     var currentNotificationId = 0;
     var currentNotification = null;
@@ -31,6 +33,9 @@ app.service('UserInfo', function ($http, $location, UserApiService) {
                 return {from: {}};
             return currentNotification;
         },
+        getUserInfo: function(){
+            return userInfo;
+        },
         registerIncomeCallback: function (callback) {
             observerIncomeCallbacks.push(callback);
         },
@@ -39,6 +44,9 @@ app.service('UserInfo', function ($http, $location, UserApiService) {
         },
         registerNotificationIdCallback: function (callback) {
             observerNotificationIdCallbacks.push(callback);
+        },
+        registerUserInfoCallback: function(callback){
+            observerUserInfo.push(callback)
         },
         updateOutFriendRequest: function() {
             UserApiService.getOutFriendRequests().success(function (data) {
@@ -59,12 +67,17 @@ app.service('UserInfo', function ($http, $location, UserApiService) {
                 console.log(data);
             });
         },
-        updateAll: function () {
+        updateUserInfo: function(userId){
+            UserApiService.getUserInfo(userId, false)
+                .success(function (data) {
+                    userInfo = data;
+                    notifyObservers(observerUserInfo)
+                });
+        },
+        updateAll: function (userId) {
             this.updateOutFriendRequest();
             this.updateInFriendRequests();
-        },
-        getCurrentNotification: function () {
-            return currentNotification;
+            this.updateUserInfo(userId);
         },
         nextFriendRequest: function () {
             currentNotificationId = (currentNotificationId + 1) % incomeFriendRequests.length;

@@ -3,12 +3,19 @@
  */
 app.service('SignInInfo', function($http, $location, UserApiService, UserInfo){
     var user = null;
-
+    var userInfo = null;
     return {
+        getUserInfo: function(){
+            return userInfo
+        },
         updateUser: function(){
             var self = this;
             UserApiService.getCurrentUser().success(function(data){
                 self.setUser(data);
+                UserApiService.getUserInfo(SignInInfo.getUser().userId, false)
+                    .success(function (data) {
+                        userInfo = data;
+                    });
             }).error(function(data){
                 user = null;
             });
@@ -40,7 +47,7 @@ app.service('SignInInfo', function($http, $location, UserApiService, UserInfo){
         setUser: function(data){
             user = data;
             localStorage.setItem('social', JSON.stringify(data));
-            UserInfo.updateAll();
+            UserInfo.updateAll(this.getUser().userId);
         },
         login: function(userInfo){
             var self = this;

@@ -97,6 +97,11 @@ li.menu-list-item.active, li.menu-list-item:hover{
 	display: inline-block;	
 }
 
+.my-profile-image img{
+	width: 50px;
+	height: 50px;
+}
+
 .profile-image img{
 	border: 0 solid #7f8c8d;
 	border-radius: 3px;
@@ -745,6 +750,7 @@ div.profile-block-div{
 }
 
 .message{
+	margin-bottom: 0.5em;
 	position: relative;
 	width: 100%;
 	display: flex;
@@ -790,7 +796,7 @@ div.profile-block-div{
 	display: inline-block;
 	max-width: 30em;
 	min-width: 15em;
-	padding: 0.5em 1em;
+	padding: 0.3em 1em;
 	background-color: #7f8c8d;
 }
 
@@ -799,4 +805,15 @@ div.profile-block-div{
 }
 .companion_message .message-text{
 	order: 2;
+}
+
+.message .photo img{
+	
+	width: 50px;
+	height: 50px;
+}
+
+.message_area{
+	resize: none !important;
+	min-height: 5em !important;
 }

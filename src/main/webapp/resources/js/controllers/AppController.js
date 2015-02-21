@@ -1,7 +1,13 @@
 app.controller('AppController', ['$scope', '$http',  '$location', 'SignInInfo','UserApiService', 'UserInfo', '$timeout',
     function ($scope, $http, $location, SignInInfo, UserApiService, UserInfo, $timeout) {
 
+
         $scope.signInInfo = SignInInfo;
+        $scope.my = SignInInfo.getUserInfo();
+
+        var updateUserInfo = function(){
+            $scope.my = UserInfo.getUserInfo();
+        };
 
         var updateIncomeFriendRequests = function(){
             $scope.incomeFriendRequests = UserInfo.getIncomeFriendRequests()
@@ -19,6 +25,7 @@ app.controller('AppController', ['$scope', '$http',  '$location', 'SignInInfo','
         UserInfo.registerIncomeCallback(updateIncomeFriendRequests);
         UserInfo.registerOutcomeCallback(updateOutcomeFriendRequests);
         UserInfo.registerNotificationIdCallback(updateCurrentNotification);
+        UserInfo.registerUserInfoCallback(updateUserInfo);
 
 
         $scope.declineFriendRequest = function(notificationId){

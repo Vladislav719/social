@@ -33,10 +33,12 @@ public class Message {
     private UserInfo to;
 
     @Expose
+    @Column(length = 1500)
     private String text;
 
     @Expose
-    private Date date;
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date date;
 
     @Expose
     private boolean read;
@@ -76,11 +78,11 @@ public class Message {
         this.text = text;
     }
 
-    public Date getDate() {
+    public java.util.Date getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(java.util.Date date) {
         this.date = date;
     }
 

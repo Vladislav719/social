@@ -32,6 +32,14 @@ public class GsonServiceImpl implements GsonService {
     }
 
     @Override
+    public Gson builderWithDateAndTime() {
+        return new GsonBuilder()
+                .setPrettyPrinting()
+                .excludeFieldsWithoutExposeAnnotation()
+                .setDateFormat("MMM d, y h:mm:ss a").create();
+    }
+
+    @Override
     public Map<String, Object> includePhotos(UserInfo userInfo, boolean includePhotos) {
         Map<String, Object> user = new HashMap<>();
         user.put("userInfo", userInfo);

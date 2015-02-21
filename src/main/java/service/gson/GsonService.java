@@ -17,5 +17,7 @@ public interface GsonService {
 
     public Gson builderWithDate();
 
+    Gson builderWithDateAndTime();
+
     public Map<String, Object> includePhotos(UserInfo userInfo, boolean includePhotos);
 }

@@ -6,7 +6,7 @@
     <div ng-show="signInInfo.isLogin()" style="height: 100%">
         <div class="my-profile-block">
             <div class="profile-image my-profile-image">
-                <img src="https://pp.vk.me/c306815/v306815704/80c1/imTMKnFgKc4.jpg">
+                <img src="{{my.photo.photoPath}}">
             </div>
             <ul class="icons my-icons">
                 <li class="icons-item">
