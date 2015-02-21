@@ -90,7 +90,7 @@ app.controller('ProfileController', function ($scope, $routeParams, $http, SignI
     }
 
     initialize();
-    UserApiService.getUserInfo(profileId)
+    UserApiService.getUserInfo(profileId, true)
         .success(function (data) {
             $scope.profile = data.userInfo;
             console.log(data);

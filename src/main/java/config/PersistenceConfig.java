@@ -32,7 +32,6 @@ public class PersistenceConfig {
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-//        factory.getJpaPropertyMap().put("hibernate.temp.use_jdbc_metadata_defaults", false);
         factory.setPackagesToScan("model");
         factory.setDataSource(dataSource);
         factory.afterPropertiesSet();

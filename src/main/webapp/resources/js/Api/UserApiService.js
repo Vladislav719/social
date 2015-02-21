@@ -10,8 +10,8 @@ app.service('UserApiService', function($http, ApiHelpService){
             return $http.post('/j_spring_security_check', $.param(param),
                 {headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
         },
-        getUserInfo: function(userId){
-            return $http.get('/profile/userInfo/' + userId);
+        getUserInfo: function(userId, includePhotos){
+            return $http.get('/profile/userInfo/' + userId, {params:{includePhotos: includePhotos}});
         },
 
         updateUserInfo: function(userInfo){

@@ -739,3 +739,64 @@ div.profile-block-div{
 .animate-leave.animate-leave-active{
 	left: -100%;
 }
+
+.message-page{
+	padding: 3em 13em;
+}
+
+.message{
+	position: relative;
+	width: 100%;
+	display: flex;
+	color: #ecf0f1;
+}
+
+.my_message{
+	justify-content: flex-end;
+	align-items: flex-end;
+}
+
+.companion_message{
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+
+.companion_message .photo::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 36px;
+	width: 0;
+	height: 0;
+	border: 7px solid #7f8c8d;
+	border-left-color: transparent;
+	border-bottom-color: transparent;
+}
+
+.my_message .photo::after {
+	content: "";
+	position: absolute;
+	top: 36px;
+	right: 36px;
+	width: 0;
+	height: 0;
+	border: 7px solid #7f8c8d;
+	border-right-color: transparent;
+	border-top-color: transparent;
+}
+
+.message-text{
+	display: inline-block;
+	max-width: 30em;
+	min-width: 15em;
+	padding: 0.5em 1em;
+	background-color: #7f8c8d;
+}
+
+.companion_message .photo{
+	order: 1;
+}
+.companion_message .message-text{
+	order: 2;
+}

@@ -25,11 +25,14 @@
 <script src="/resources/js/api/UserApiService.js"></script>
 <script src="/resources/js/api/WallApiService.js"></script>
 <script src="/resources/js/api/LikesApiService.js"></script>
+<script src="/resources/js/api/MessagesApiService.js"></script>
 <%----%>
 <%--Controllers--%>
 <script src="/resources/js/controllers/AppController.js"></script>
 <script src="/resources/js/controllers/LoginPageController.js"></script>
 <script src="/resources/js/controllers/ProfileController.js"></script>
+<script src="/resources/js/controllers/MessagesController.js"></script>
+<script src="/resources/js/controllers/ChatController.js"></script>
 <%----%>
 
 

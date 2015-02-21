@@ -14,6 +14,14 @@ app.config(function($routeProvider, $locationProvider) {
             templateUrl: 'resources/parts/profile.html',
             controller: 'ProfileController',
             name: 'auth'
+        }).when('/messages', {
+            templateUrl: 'resources/parts/messages.html',
+            controller: 'MessageController',
+            name: 'auth'
+        }).when('/messages/:id', {
+            templateUrl: 'resources/parts/chat.html',
+            controller: 'ChatController',
+            name: 'auth'
         }).when('/login', {
             templateUrl: 'resources/parts/login.html',
             controller: 'LoginPageController',

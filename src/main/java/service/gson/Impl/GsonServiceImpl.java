@@ -2,10 +2,13 @@ package service.gson.Impl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import model.UserInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.gson.GsonService;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ElessarST on 14.02.2015.
@@ -26,6 +29,16 @@ public class GsonServiceImpl implements GsonService {
                 .setPrettyPrinting()
                 .excludeFieldsWithoutExposeAnnotation()
                 .setDateFormat("yyyy-MM-dd").create();
+    }
+
+    @Override
+    public Map<String, Object> includePhotos(UserInfo userInfo, boolean includePhotos) {
+        Map<String, Object> user = new HashMap<>();
+        user.put("userInfo", userInfo);
+        if (includePhotos)
+            user.put("photos", userInfo.getPhoto());
+        user.put("photo", userInfo.getMainPhoto());
+        return user;
     }
 
 

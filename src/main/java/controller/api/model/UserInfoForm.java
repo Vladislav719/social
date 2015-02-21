@@ -28,6 +28,8 @@ public class UserInfoForm {
 
     private String city;
 
+    private boolean includePhotos;
+
     private String aboutMe;
 
     public UserInfoForm(String firstName, String lastName) {

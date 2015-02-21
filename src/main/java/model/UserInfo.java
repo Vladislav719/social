@@ -58,7 +58,6 @@ public class    UserInfo {
     private String aboutMe;
 
     @OneToMany(mappedBy= "owner", fetch = FetchType.LAZY)
-    @Expose
     private List<Photo> photo;
 
     @OneToOne

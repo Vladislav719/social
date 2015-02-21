@@ -23,13 +23,13 @@ public class WebAppInitializer extends
 	@Override
     public Class<?>[] getRootConfigClasses() {
 		return new Class<?>[] { DataSourceConfig.class, PersistenceConfig.class, CoreConfig.class,
-                AppSecurityConfig.class, WebSocketConfig.class };
+                AppSecurityConfig.class};
 	}
   //{!end addToRootContext}
 
 	@Override
     public Class<?>[] getServletConfigClasses() {
-		return new Class<?>[] { WebConfig.class };
+		return new Class<?>[] { WebConfig.class};
 	}
 
 	@Override
