@@ -18,5 +18,5 @@ public interface UserInfoRepository extends CrudRepository<UserInfo, Long>{
 
     @Query("select user.mainPhoto from UserInfo user where user.id = ?1 ")
     public Photo getMainPhoto(long id);
-
+    
 }

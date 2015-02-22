@@ -9,7 +9,10 @@ import service.FriendshipService;
 import service.UserLoginService;
 import service.gson.GsonService;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ElessarST on 14.02.2015.
@@ -53,7 +56,7 @@ public class FriendshipApi {
         User currentUser = userLoginService.getCurrentUser();
         boolean request = friendshipService.acceptRequest(currentUser.getUserId(), friendId);
         if (request)
-            return gsonService.success("Request was successfully declined");
+            return gsonService.success("Request was successfully accepted");
         else
             return gsonService.error("Something is wrong");
     }
@@ -61,7 +64,11 @@ public class FriendshipApi {
     @RequestMapping(value = "/friends/all/{friendId}", method = RequestMethod.POST)
     public @ResponseBody Object getFriends(@PathVariable Long friendId){
         List<UserInfo> friends = friendshipService.getAllFriends(friendId);
-        return gsonService.standardBuilder().toJson(friends);
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (UserInfo friend : friends){
+            result.add(gsonService.includePhotos(friend, false));
+        }
+        return gsonService.standardBuilder().toJson(result);
     }
 
     @RequestMapping(value = "/friends/requests/in", method = RequestMethod.POST)

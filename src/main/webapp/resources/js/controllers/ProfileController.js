@@ -93,6 +93,7 @@ app.controller('ProfileController', function ($scope, $routeParams, $http, SignI
     UserApiService.getUserInfo(profileId, true)
         .success(function (data) {
             $scope.profile = data.userInfo;
+            $scope.profile.status = data.status;
             console.log(data);
             $scope.profilePhoto = data.photo;
             $scope.page.mainImage = $scope.profilePhoto;
@@ -173,6 +174,7 @@ app.controller('ProfileController', function ($scope, $routeParams, $http, SignI
             });
         } else {
             LikesApi.addLikePost(post.postId).success(function (data) {
+                post.likes.push({owner: {id:userId}});
                 post.liked = true
             });
         }

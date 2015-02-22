@@ -5,6 +5,9 @@ import com.google.gson.GsonBuilder;
 import model.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import service.FriendshipService;
+import service.UserLoginService;
+import service.UserService;
 import service.gson.GsonService;
 
 import java.util.HashMap;
@@ -15,6 +18,12 @@ import java.util.Map;
  */
 @Service
 public class GsonServiceImpl implements GsonService {
+    @Autowired
+    private FriendshipService friendshipService;
+
+    @Autowired
+    private UserLoginService userLoginService;
+
     @Override
     public Gson standardBuilder() {
         return new GsonBuilder()
@@ -45,6 +54,7 @@ public class GsonServiceImpl implements GsonService {
         user.put("userInfo", userInfo);
         if (includePhotos)
             user.put("photos", userInfo.getPhoto());
+        user.put("status", friendshipService.isFriend(userLoginService.getCurrentUserInfo().getId(), userInfo.getId()));
         user.put("photo", userInfo.getMainPhoto());
         return user;
     }
@@ -58,7 +68,7 @@ public class GsonServiceImpl implements GsonService {
 
     public String success(String successMessage){
         HashMap<String, String> success = new HashMap<>();
-        success.put("error", successMessage);
+        success.put("success", successMessage);
         return standardBuilder().toJson(success);
     }
 }

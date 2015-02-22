@@ -1,6 +1,8 @@
 package controller.api.model;
 
+import com.google.gson.annotations.Expose;
 import model.Message;
+import model.Photo;
 import model.UserInfo;
 import org.springframework.data.domain.PageRequest;
 
@@ -11,11 +13,17 @@ import java.util.List;
  */
 public class Dialog {
 
+    @Expose
     private List<Message> message;
 
+    @Expose
     private UserInfo userInfo;
 
-    public Dialog(UserInfo userInfo, List<Message> message, PageRequest pageRequest) {
+    @Expose
+    private Photo photo;
+
+    public Dialog(UserInfo userInfo, List<Message> message, Photo photo) {
+        this.photo = photo;
         this.message = message;
         this.userInfo = userInfo;
     }
@@ -34,5 +42,13 @@ public class Dialog {
 
     public void setUserInfo(UserInfo userInfo) {
         this.userInfo = userInfo;
+    }
+
+    public Photo getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(Photo photo) {
+        this.photo = photo;
     }
 }

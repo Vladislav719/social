@@ -25,4 +25,6 @@ public interface FriendshipService {
     public void addRequest(long userId, long friendId);
 
     public boolean removeFriendShip(long userId, long friendId);
+
+    public Long isFriend(long id, long userId);
 }

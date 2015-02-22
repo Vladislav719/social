@@ -7,6 +7,7 @@ body,html{
 	font-size: 14px;
 	font-family: Tahoma, serif;
 	cursor: default;
+	overflow: hidden;
 }
 
 .left_bar{
@@ -17,6 +18,7 @@ body,html{
 	left: 0;
 	background: url("/resources/css/images/left_bar_background.gif") repeat;
 	height: 100%;
+	border-right: 1px solid #ffffff;
 }
 
 .right_bar{
@@ -33,10 +35,11 @@ body,html{
 	border-left: 1px solid #ffffff;
 	background: url("/resources/css/images/left_bar_background.gif") repeat;
 	position: absolute;
-	left: 196px;
-	right: 280px;
+	padding-left: 196px;
+	padding-right: 280px;
 	height: 100%;
-	width: auto;
+	width: 100%;
+	overflow: auto;
 }
 .wrapper{
 	position: relative;
@@ -77,8 +80,15 @@ li.menu-list-item{
 	cursor: pointer;
 }
 
+li.menu-list-item a{
+	text-decoration: none;
+	cursor: pointer;
+	color: #7f8c8d;
+}
 
-li.menu-list-item.active, li.menu-list-item:hover{
+
+li.menu-list-item.active, li.menu-list-item:hover,
+li.menu-list-item a:hover{
 	color: white;
 }
 
@@ -103,6 +113,8 @@ li.menu-list-item.active, li.menu-list-item:hover{
 }
 
 .profile-image img{
+	width: 50px;
+	height: 50px;
 	border: 0 solid #7f8c8d;
 	border-radius: 3px;
 	cursor: pointer;
@@ -470,12 +482,10 @@ form .inp{
 
 .profile-page{
 	width: 100%;
-	margin:auto;
 	margin: 0px;
 
 	padding: 40px;
 	height: 100%;
-	overflow: hidden;
 	min-width: 500px;
 	min-height: 500px;
 	position: relative;
@@ -491,8 +501,6 @@ form .inp{
 }
 
 .profile-wrapper{
-	display: flex;
-	flex-direction: column;
 	width: 100%
 }
 
@@ -547,7 +555,8 @@ form .inp{
 }
 
 .profile-posts{
-	margin-top: 50px;
+	width: 100%;
+	margin-top: 10px;
 	display: inline-flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -623,7 +632,7 @@ form .inp{
 }
 
 .background{
-	border-left: 1px solid #ffffff;
+	height: 100%;
 	background: url("/resources/css/images/left_bar_background.gif") repeat;
 }
 
@@ -746,7 +755,8 @@ div.profile-block-div{
 }
 
 .message-page{
-	padding: 3em 13em;
+	overflow: hidden !important;
+	padding: 3em 10em;
 }
 
 .message{
@@ -794,10 +804,11 @@ div.profile-block-div{
 
 .message-text{
 	display: inline-block;
-	max-width: 30em;
+	max-width: 15em;
 	min-width: 15em;
 	padding: 0.3em 1em;
 	background-color: #7f8c8d;
+	word-wrap: break-word;
 }
 
 .companion_message .photo{
@@ -807,8 +818,11 @@ div.profile-block-div{
 	order: 2;
 }
 
+.message .photo{
+	position: relative;
+}
+
 .message .photo img{
-	
 	width: 50px;
 	height: 50px;
 }
@@ -817,3 +831,55 @@ div.profile-block-div{
 	resize: none !important;
 	min-height: 5em !important;
 }
+
+.add_background{
+	background: url("/resources/css/images/left_bar_background.gif") repeat;
+}
+
+.message-page h1{
+	color: #ffffff;
+}
+
+.not_read .message-text{
+	background-color: #ffffff;
+	color:  #7f8c8d;
+}
+
+
+.messages-wrap{
+	height: 30em;
+	overflow-y: auto;
+	overflow-x: hidden;
+	position: absolute;
+	left: 0;
+	right: -17px;
+}
+
+.hide-scroll{
+	position: relative;
+	width: 100%;
+	height: 30em;
+	overflow: hidden;
+}
+
+.message-profile-img{
+	display: inline-block;
+	position: relative;
+}
+
+.dialog-message-block{
+	color: #ffffff;
+	margin-left: 10px;
+	display: inline-block;
+}
+
+.dialog-wrap{
+	width: 100%;
+	padding-bottom: 15px;
+	border-bottom: 1px solid #7f8c8d;
+}
+
+.dialog-wrap{
+
+}
+

@@ -1,4 +1,4 @@
-<div class="profile-page">
+<div class="profile-page add_background">
     <div class="profile-wrapper" ng-hide="isGalleryOpened">
         <div class="profile-body">
             <div class="profile-photo">
@@ -12,7 +12,7 @@
                     <button ng-click="updatePhoto()" class="btn full-width" ng-show="uploader.queue.length > 0">Update photo</button>
                 </div>
                 <div>
-                    <button class="btn full-width" ng-click="addToFriend()" ng-if="!myProfile">Add To Friend</button>
+                    <button class="btn full-width" ng-click="addToFriend()" ng-if="!myProfile && profile.status != 1">Add To Friend</button>
                 </div>
                 <div class="profile-block-div">
                     <button class="btn full-width" ng-click="isGalleryOpened = true">
@@ -96,13 +96,13 @@
                             <i class="glyphicon glyphicon-pencil hover-white hover-cursor" ng-show="post.author.user.userId == currentUser.userId" ng-click="edit = true; temp=post.text"></i>
                             <i class="glyphicon glyphicon-remove hover-white hover-cursor" ng-show="post.author.user.userId == currentUser.userId || myProfile" ng-click="deletePost(post, $index)"></i>
                         </div>
-                        <i class="glyphicon glyphicon-thumbs-up hover-cursor hover-white" ng-click="toggleLike(post)" ng-class="{liked: post.liked==true}"></i>
+                        <i class="glyphicon glyphicon-thumbs-up hover-cursor hover-white pull-right" ng-click="toggleLike(post)" ng-class="{liked: post.liked==true}">{{post.likes.length}}</i>
                     </div>
                     <p ng-show="!edit">{{post.text}}</p>
                     <textarea class="inp" ng-model="post.text" ng-show="edit"/>
                     <div ng-show="edit">
                         <i class="glyphicon glyphicon-ok hover-white hover-cursor" ng-click="editPost(post, $index);edit = false;"></i>
-                        <i class="glyphicon glyphicon-remove hover-white hover-cursor" ng-click="edit = false;post.text=temp;cancelUpdatePost()"></i>
+                        <i class="glyphicon glyphicon-remove hover-white hover-cursor " ng-click="edit = false;post.text=temp;cancelUpdatePost()"></i>
                     </div>
                 </div>
             </div>
@@ -114,7 +114,7 @@
                             <i class="glyphicon glyphicon-pencil hover-white hover-cursor" ng-show="post.author.user.userId == currentUser.userId" ng-click="edit = true; temp=post.text"></i>
                             <i class="glyphicon glyphicon-remove hover-white hover-cursor" ng-show="post.author.user.userId == currentUser.userId || myProfile" ng-click="deletePost(post, $index)"></i>
                         </div>
-                        <i class="glyphicon glyphicon-thumbs-up hover-cursor hover-white" ng-click="toggleLike(post)" ng-class="{liked: post.liked==true}"></i>
+                        <i class="glyphicon glyphicon-thumbs-up hover-cursor hover-white pull-right" ng-click="toggleLike(post)" ng-class="{liked: post.liked==true}">{{post.likes.length}}</i>
                     </div>
                     <p ng-show="!edit">{{post.text}}</p>
                     <textarea class="inp" ng-model="post.text" ng-show="edit"/>

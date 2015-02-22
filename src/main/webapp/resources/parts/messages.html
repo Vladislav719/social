@@ -1,3 +1,20 @@
-<div>
+<div class="message-page add_background">
+    <h1>Your dialogs</h1>
+    <div ng-repeat="dialog in dialogs" class="dialog">
 
+        <a ng-href="/#/messages/{{dialog.userInfo.id}}" style="text-decoration: none">
+            <div class="dialog-wrap">
+
+                    <div class="profile-image message-profile-img">
+                        <img src="{{dialog.photo.photoPath}}">
+                    </div>
+                    <div class="dialog-message-block">
+                        <div class="name" >{{dialog.userInfo.firstName + ' ' + dialog.userInfo.lastName}}</div>
+                        <div class="text" ng-class="{not_read: dialog.message[0].read==false}">
+                          {{dialog.message[0].text.substring(0, 50)}}
+                        </div>
+                    </div>
+            </div>
+        </a>
+    </div>
 </div>

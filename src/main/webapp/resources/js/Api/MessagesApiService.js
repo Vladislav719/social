@@ -12,6 +12,9 @@ app.service('MessagesApi', function( $http){
         },
         getMessages: function(dialogId){
             return $http.get('/messages/' + dialogId);
+        },
+        readMessages: function(dialogId){
+            return $http.post('/messages/read/' + dialogId, {})
         }
     }
 });

@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.UserInfoRepository;
 import repository.UserRepository;
+import service.FriendshipService;
 import service.PhotoService;
+import service.UserLoginService;
 import service.UserService;
 
 /**
@@ -25,7 +27,13 @@ public class UserServiceImpl implements UserService {
     private UserInfoRepository userInfoRepository;
 
     @Autowired
+    UserLoginService userLoginService;
+
+    @Autowired
     private PhotoService photoService;
+
+    @Autowired
+    private FriendshipService friendshipService;
 
     @Override
     public User getSecureUserByEmail(String email) {

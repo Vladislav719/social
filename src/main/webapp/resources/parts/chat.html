@@ -1,18 +1,26 @@
-<div class="message-page">
-    <div ng-repeat="message in messages" class="message" ng-class="{my_message: message.to.id == chatId, companion_message: message.from.id == chatId}">
-        <div class="message-text">
-            <div ng-class="{not_read: message.read == false}">
-                {{message.text}}
-                <div>
-                    {{message.date | date:  'medium'}}
+<div class="message-page add_background">
+    <div class="hide-scroll">
+        <div class="messages-wrap">
+            <div class="scroller">
+                <div ng-repeat="message in messages" class="message" ng-class="{my_message: message.to.id == chatId, companion_message: message.from.id == chatId}">
+                    <div class="message-text">
+                        <p>
+                            {{message.text}}
+                        </p>
+                        <div>
+                            {{message.date | date:  'medium'}}
+                        </div>
+                    </div><!--
+                    -->
+                    <div class="photo-wrap">
+                        <div class="photo">
+                            <a ng-href="/#/profile/{{message.from.id}}">
+                                <img src="{{my.photo.photoPath}}" ng-if="message.to.id == chatId">
+                                <img src="{{companion.photo.photoPath}}" ng-if="message.from.id == chatId">
+                            </a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div><!--
-        -->
-        <div class="photo-wrap">
-            <div class="photo">
-                <img src="{{my.photo.photoPath}}" ng-if="message.to.id == chatId">
-                <img src="{{companion.photo.photoPath}}" ng-if="message.from.id == chatId">
             </div>
         </div>
     </div>

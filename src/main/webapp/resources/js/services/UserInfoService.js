@@ -93,7 +93,7 @@ app.service('UserInfo', function ($http, $location, UserApiService) {
         },
 
         acceptFriendRequest: function (friendId) {
-            UserApiService.acceptFriendRequest(incomeFriendRequests[friendId].from.user.userId).success(function (data) {
+            UserApiService.acceptFriendRequest(incomeFriendRequests[friendId].from.id).success(function (data) {
                 console.log(data)
             }).error(function (data) {
                 console.log(data);
@@ -101,7 +101,7 @@ app.service('UserInfo', function ($http, $location, UserApiService) {
         },
 
         declineFriendRequest: function (friendId) {
-            UserApiService.declineFriendRequest(incomeFriendRequests[friendId].from.user.userId).success(function (data) {
+            UserApiService.declineFriendRequest(incomeFriendRequests[friendId].from.id).success(function (data) {
                 console.log(data)
             }).error(function (data) {
                 console.log(data);

@@ -16,4 +16,8 @@ public interface MessagesService {
     public List<Message> getMessages(UserInfo currentUserInfo, long id);
 
     public Message addMessages(UserInfo currentUserInfo, long id, String text);
+
+    public void readMessages(UserInfo currentUserInfo, long id);
+
+    public List<Message> getLastMessages(UserInfo currentUserInfo, Long messageId);
 }

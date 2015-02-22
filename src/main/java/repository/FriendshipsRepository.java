@@ -26,4 +26,7 @@ public interface FriendshipsRepository extends CrudRepository<Friendship, Long> 
 
     @Query("select friends from Friendship friends where friends.from.user.userId = ?1 and friends.to.user.userId = ?2")
     public Friendship findRequest(long userId, long friendId);
+
+    @Query("select friends.status from Friendship friends where friends.from.user.userId = ?1 and friends.to.user.userId = ?2")
+    public Long isFriends(long id, long userId);
 }

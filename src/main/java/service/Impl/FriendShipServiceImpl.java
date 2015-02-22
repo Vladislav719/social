@@ -94,4 +94,9 @@ public class FriendshipServiceImpl implements FriendshipService {
         }
         return true;
     }
+
+    @Override
+    public Long isFriend(long id, long userId) {
+        return friendshipsRepository.isFriends(id, userId);
+    }
 }
