@@ -10,13 +10,14 @@ app.controller('ProfileController', function ($scope, $routeParams, $http, SignI
     $scope.uploader.onSuccessItem = function (fileItem, response) {
         $scope.uploader.clearQueue();
         $scope.profilePhoto = response;
+        $scope.page.photo.push(response);
     };
 
     $scope.photoUploader = new FileUploader();
     $scope.photoUploader.url = '/add/photos';
     $scope.photoUploader.onSuccessItem = function (fileItem, response) {
         $scope.photoUploader.clearQueue();
-        $scope.profile.photo.push(response);
+        $scope.page.photo.push(response);
     };
 
     $scope.updatePhoto = function () {
@@ -52,11 +53,13 @@ app.controller('ProfileController', function ($scope, $routeParams, $http, SignI
                 return this.index === index;
             },
             photos: [],
-            incPhoto: function () {
-                this.index = (this.index > 0) ? --this.index : this.photos.length - 1;
-            },
             decPhoto: function () {
+                this.index = (this.index > 0) ? --this.index : this.photos.length - 1;
+                this.mainImage = this.photos[this.index];
+            },
+            incPhoto: function () {
                 this.index = (this.index < this.photos.length - 1) ? ++this.index : 0;
+                this.mainImage = this.photos[this.index];
             },
             showPhoto: function (index) {
                 this.index = index;
@@ -97,7 +100,7 @@ app.controller('ProfileController', function ($scope, $routeParams, $http, SignI
             console.log(data);
             $scope.profilePhoto = data.photo;
             $scope.page.mainImage = $scope.profilePhoto;
-            $scope.page.photos = $scope.profile.photo;
+            $scope.page.photos =data.photos;
             $scope.profileHistory = {};
             cloneProfile($scope.profileHistory, $scope.profile);
         });

@@ -128,30 +128,18 @@
         </div>
     </div>
     <div class="gallery" ng-show="isGalleryOpened">
-        <div class="container slider">
-            <img ng-repeat="photo in page.photos" class="slide" ng-show="page.isActive($index)" ng-src="{{photo.src}}" />
-            <i class="glyphicon glyphicon-arrow-left hover-white hover-cursor arrows" ng-click="page.decPhoto()"></i>
-            <i class="glyphicon glyphicon-arrow-right hover-white hover-cursor arrows" ng-click="page.incPhoto()"></i>
-            <ul class="nav">
-                <li ng-repeat="photo in page.photos" ng-class="{'active':isActive($index)}">
-                    <img src="{{photo.src}}" alt="{{photo.desc}}" title="{{photo.desc}}" ng-click="showPhoto($index);" />
-                </li>
-            </ul>
-        </div>
-        <!--<div class="gallery-container">
+        <div class="gallery-container">
             <img src="{{page.mainImage.photoPath}}" class="main-img">
         </div>
         <div class="slider-container">
             <div class="slider">
                 <i class="glyphicon glyphicon-arrow-left hover-white hover-cursor arrows" ng-click="page.decPhoto()"></i>
                 <span ng-repeat="photo in profile.photo" ng-switch on="$index >= page.from && $index <= page.from + page.step">
-                    <img  ng-switch-when="true"
-                         class="small-img my-animation" ng-click="page.mainImage=photo" src="{{photo.photoPath}}"/>
                 </span>
                 <i class="glyphicon glyphicon-arrow-right hover-white hover-cursor arrows" ng-click="page.incPhoto()"></i>
             </div>
 
-        </div>-->
+        </div>
         <div>
             <button class="btn" ng-click="isGalleryOpened = false">Close</button>
             <div class=photo-choose" ng-if="myProfile" >
