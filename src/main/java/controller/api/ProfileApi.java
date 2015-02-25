@@ -65,13 +65,19 @@ public class ProfileApi {
 
     @RequestMapping(value = "/profile/userInfo/{profileId}", method = RequestMethod.GET)
     private @ResponseBody Object getUserInfo(@PathVariable Long profileId,
-                                             @RequestParam boolean includePhotos){
+                                             @RequestParam boolean includePhotos,
+                                             HttpServletResponse response){
         UserInfo userInfo = userService.getUserInfo(profileId);
         Gson gson = gsonService.builderWithDate();
         if (userInfo == null) {
             return gsonService.error("User not found");
         }
-        return gson.toJson(gsonService.includePhotos(userInfo, includePhotos));
+        try {
+            return gson.toJson(gsonService.includePhotos(userInfo, includePhotos));
+        } catch (Exception ex){
+            return gson.toJson(gsonService.loginError(response));
+        }
+
     }
 
     private Map<String, Object> userWithPhoto(UserInfo userInfo) {
@@ -88,7 +94,7 @@ public class ProfileApi {
                                                 HttpServletResponse response) {
         UserInfo user = userLoginService.getCurrentUserInfo();
         if (user == null)
-            return gsonService.error("You're not login");
+            return gsonService.standardBuilder().toJson(gsonService.loginError(response));
         if (bindingResult.hasErrors()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return gsonService.standardBuilder().toJson(bindingResultErrorUtil.returnJson(bindingResult));

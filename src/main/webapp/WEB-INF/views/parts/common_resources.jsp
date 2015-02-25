@@ -33,6 +33,10 @@
 <script src="/resources/js/controllers/ProfileController.js"></script>
 <script src="/resources/js/controllers/MessagesController.js"></script>
 <script src="/resources/js/controllers/ChatController.js"></script>
+<script src="/resources/js/controllers/PeopleController.js"></script>
+<script src="/resources/js/controllers/EditController.js"></script>
+<script src="/resources/js/controllers/FriendsController.js"></script>
+<script src="/resources/js/controllers/PhotosController.js"></script>
 <%----%>
 
 

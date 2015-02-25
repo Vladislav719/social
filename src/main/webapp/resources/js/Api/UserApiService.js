@@ -11,6 +11,8 @@ app.service('UserApiService', function($http, ApiHelpService){
                 {headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
         },
         getUserInfo: function(userId, includePhotos){
+            if (includePhotos == undefined)
+                includePhotos = true;
             return $http.get('/profile/userInfo/' + userId, {params:{includePhotos: includePhotos}});
         },
 
@@ -40,7 +42,10 @@ app.service('UserApiService', function($http, ApiHelpService){
             return $http.delete('/friends/requests/remove/' + friendId)
         },
         getAllFriends: function(friendId){
-            return $http.post('/friends/all/' + friendId)
+            return $http.post('/friends/all/' + friendId, {})
+        },
+        getAllPeople: function(){
+            return $http.get('/people');
         }
     }
 });

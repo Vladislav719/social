@@ -11,9 +11,12 @@
                 <input type="password" class="inp" name="j_password" ng-model="authUser.password" placeholder="Password" required>
 
                 <input style="visibility:hidden; position: absolute" id="remember-me" type="checkbox" name="remember-me" checked/>
-                <br>
+
+                <p class="text-danger" ng-show="loginError">Incorrect credentials</p>
+
                 <button class="btn" type="submit">Sign In</button>
             </form>
+
         </div>
         <div class="registration-form-wrapper" ng-show="shownedBlock == 'registration'">
             <form>

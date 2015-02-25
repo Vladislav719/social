@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 main-photo-wrapper">
+        <img src="{{page.currentPhoto.photoPath}}" class="main-photo inline text-center"/>
+    </div>
+    <div class="col-md-3" ng-if="profileId == userId">
+        <input id="photoUploader" type="file" nv-file-select uploader="photoUploader" class="photoUploader"/>
+        <br>
+        <label for="photoUploader" class=" btn full-width" ng-hide="photoUploader.queue.length > 0">
+            New Photo
+        </label>
+        <button ng-click="addPhoto()" class="btn full-width" ng-show="photoUploader.queue.length > 0">Add photo</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div ng-repeat="photo in photos" class="inline">
+            <img src="{{photo.photoPath}}" class="image big-image" ng-click="page.currentPhoto = photo"/>
+        </div>
+    </div>
+</div>

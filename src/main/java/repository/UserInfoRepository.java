@@ -5,6 +5,9 @@ import model.UserInfo;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Aydar on 29.11.2014.
  */
@@ -18,5 +21,7 @@ public interface UserInfoRepository extends CrudRepository<UserInfo, Long>{
 
     @Query("select user.mainPhoto from UserInfo user where user.id = ?1 ")
     public Photo getMainPhoto(long id);
-    
+
+    @Query("select user from UserInfo user where user.id <> ?1")
+    public List<UserInfo> getAllPeople(long id);
 }

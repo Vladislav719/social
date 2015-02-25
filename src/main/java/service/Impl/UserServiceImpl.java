@@ -1,5 +1,6 @@
 package service.Impl;
 
+import com.google.gson.Gson;
 import controller.api.model.UserInfoForm;
 import controller.model.UserRegistrationForm;
 import model.Photo;
@@ -13,6 +14,11 @@ import service.FriendshipService;
 import service.PhotoService;
 import service.UserLoginService;
 import service.UserService;
+import service.gson.GsonService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Aydar on 27.11.2014.
@@ -79,6 +85,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public Photo getMainPhoto(long id) {
         return userInfoRepository.getMainPhoto(id);
+    }
+
+    @Override
+    public ArrayList<HashMap<String, Object>> getAllPeople(long id) {
+        List<UserInfo> users = userInfoRepository.getAllPeople(id);
+        ArrayList<HashMap<String, Object>> result = new ArrayList<>();
+        for (UserInfo userInfo : users){
+            Long status = friendshipService.isFriend(id, userInfo.getId());
+            if (status != null && status == 1)
+                continue;
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("user", userInfo);
+            map.put("status", status);
+            if (userInfo.getMainPhoto() == null)
+                map.put("photo", new Photo(GsonService.defaultPhoto));
+            else
+                map.put("photo", userInfo.getMainPhoto());
+            result.add(map);
+        }
+        return result;
     }
 
 }

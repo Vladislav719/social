@@ -13,16 +13,13 @@
 </head>
 
 <body ng-controller="AppController">
-  <div class="wrapper add_background">
 
-    <div class="center">
+
       <jsp:include page="parts/left_bar.jsp"/>
       <jsp:include page="parts/right_bar.jsp"/>
-      <div ng-view class="background">
+      <div ng-view class="col-md-8 col-md-offset-2 main-container" >
 
       </div>
-    </div>
-  </div>
 </body>
 </html>
 

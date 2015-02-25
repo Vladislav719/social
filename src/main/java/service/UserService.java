@@ -6,6 +6,9 @@ import model.Photo;
 import model.User;
 import model.UserInfo;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Created by Aydar on 27.11.2014.
  */
@@ -25,4 +28,6 @@ public interface UserService {
     public Photo setUserPhoto(String relativeUrl, UserInfo currentUserInfo);
 
     public Photo getMainPhoto(long id);
+
+    public ArrayList<HashMap<String,Object>> getAllPeople(long id);
 }

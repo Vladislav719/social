@@ -1,10 +1,8 @@
-<div class="message-page add_background">
+<div class="message-page">
     <h1>Your dialogs</h1>
     <div ng-repeat="dialog in dialogs" class="dialog">
-
         <a ng-href="/#/messages/{{dialog.userInfo.id}}" style="text-decoration: none">
             <div class="dialog-wrap">
-
                     <div class="profile-image message-profile-img">
                         <img src="{{dialog.photo.photoPath}}">
                     </div>

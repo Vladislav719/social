@@ -143,11 +143,14 @@ public class    UserInfo {
         this.city = userInfoForm.getCity();
         this.phoneNumber = userInfoForm.getPhoneNumber();
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        java.util.Date date = null;
-        try {
-            date = format.parse(userInfoForm.getBirthDate());
-        } catch (Exception e) {}
-        this.setBirthDate(new Date(date.getTime()));
+        if (userInfoForm.getBirthDate() != null) {
+            java.util.Date date = null;
+            try {
+                date = format.parse(userInfoForm.getBirthDate());
+            } catch (Exception e) {
+            }
+            this.setBirthDate(new Date(date.getTime()));
+        }
         this.aboutMe = userInfoForm.getAboutMe();
         return this;
     }

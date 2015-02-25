@@ -3,6 +3,7 @@
  */
 app.controller('ChatController', function($scope, $http, SignInInfo, MessagesApi,
                                           UserApiService, $routeParams, $timeout){
+    $scope.pages.currentPage = 'messages';
     var chatId = $routeParams.id;
 
     $scope.$on('newMessages', function(event,data){
@@ -25,7 +26,10 @@ app.controller('ChatController', function($scope, $http, SignInInfo, MessagesApi
                 $scope.mes.newMessages--;
                 $scope.$apply();
             }
-        })
+        }).error(function (data) {
+            if (data.loginError)
+                $scope.$emit('loginError');
+        });
     }
 
     $scope.chatId = chatId;
@@ -41,12 +45,18 @@ app.controller('ChatController', function($scope, $http, SignInInfo, MessagesApi
         $scope.messages = data;
         scrollBottom();
         $timeout(markRead, 2000);
-    });
+    }).error(function (data) {
+        if (data.loginError)
+            $scope.$emit('loginError');
+    });;
 
     UserApiService.getUserInfo(chatId, false)
         .success(function (data) {
             $scope.companion = data;
-        });
+        }).error(function (data) {
+            if (data.loginError)
+                $scope.$emit('loginError');
+        });;
 
 
     $scope.sendMessage = function(){
@@ -55,6 +65,9 @@ app.controller('ChatController', function($scope, $http, SignInInfo, MessagesApi
                $scope.messages.push(data);
                scrollBottom();
                $scope.newMessage = ''
-           })
+           }).error(function (data) {
+               if (data.loginError)
+                   $scope.$emit('loginError');
+           });
     }
 });

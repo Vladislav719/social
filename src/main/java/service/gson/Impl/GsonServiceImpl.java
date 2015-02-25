@@ -2,6 +2,7 @@ package service.gson.Impl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import model.Photo;
 import model.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import service.UserLoginService;
 import service.UserService;
 import service.gson.GsonService;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,7 +57,10 @@ public class GsonServiceImpl implements GsonService {
         if (includePhotos)
             user.put("photos", userInfo.getPhoto());
         user.put("status", friendshipService.isFriend(userLoginService.getCurrentUserInfo().getId(), userInfo.getId()));
-        user.put("photo", userInfo.getMainPhoto());
+        if (userInfo.getMainPhoto() == null)
+            user.put("photo", new Photo(defaultPhoto));
+        else
+            user.put("photo", userInfo.getMainPhoto());
         return user;
     }
 
@@ -64,6 +69,14 @@ public class GsonServiceImpl implements GsonService {
         HashMap<String, String> error = new HashMap<>();
         error.put("error", errorMessage);
         return standardBuilder().toJson(error);
+    }
+
+    @Override
+    public HashMap<String, Object> loginError(HttpServletResponse response) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("loginError", true);
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        return map;
     }
 
     public String success(String successMessage){

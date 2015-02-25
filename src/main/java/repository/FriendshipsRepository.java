@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface FriendshipsRepository extends CrudRepository<Friendship, Long> {
 
-    @Query("select friends from Friendship friends where friends.to.user.userId = ?1 and friends.status = 0")
+    @Query("select friends from Friendship friends where friends.to.user.userId = ?1 and (friends.status = 0 or friends.status = -1)")
     public List<Friendship> getAllIncomingRequest(long userId);
 
     @Query("select friends from Friendship friends where friends.from.user.userId = ?1 and (friends.status = 0 or friends.status = -1)")
@@ -29,4 +29,7 @@ public interface FriendshipsRepository extends CrudRepository<Friendship, Long> 
 
     @Query("select friends.status from Friendship friends where friends.from.user.userId = ?1 and friends.to.user.userId = ?2")
     public Long isFriends(long id, long userId);
+
+    @Query("select friends from Friendship friends where friends.from.user.userId = ?2 and friends.to.user.userId = ?1 and friends.status <= 0")
+    public Friendship getIncomingRequest(long userId, long friendId);
 }

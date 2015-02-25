@@ -3,13 +3,23 @@
  */
 
 app.controller('LoginPageController', ['$scope', '$http', 'SignInInfo', 'UserApiService',
-    function($scope, $http, SignInInfo, UserApiService){
+    '$location',
+    function($scope, $http, SignInInfo, UserApiService, $location){
         $scope.auth = SignInInfo.isLogin();
         $scope.shownedBlock = 'login';
         $scope.user = {};
         $scope.authUser = {};
         $scope.signIn = function(){
-            SignInInfo.login($scope.authUser);
+            SignInInfo.login($scope.authUser).success(function(data){
+                UserApiService.getCurrentUser().success(function(data) {
+                    SignInInfo.setUser(data);
+                    $location.path('/profile/' + SignInInfo.getUser().userId);
+                });
+            }).error(function (data) {
+                $scope.loginError = true;
+                if (data.loginError)
+                    $scope.$emit('loginError');
+            });
         };
 
         $scope.signUp = function(){
@@ -17,10 +27,17 @@ app.controller('LoginPageController', ['$scope', '$http', 'SignInInfo', 'UserApi
             UserApiService.register($scope.user).success(function(data){
                 console.log(data);
                 SignInInfo.setUser(data);
-                SignInInfo.login($scope.user);
-            }).error(function(data){
+                $scope.authUser = {
+                    email: $scope.user.email,
+                    password: $scope.user.password
+                };
+                $scope.signIn();
+            }).error(function (data) {
                 $scope.errors = data.errors;
+                if (data.loginError)
+                    $scope.$emit('loginError');
             });
+
         }
     }
 ]);

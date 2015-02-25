@@ -1,0 +1,77 @@
+<div class="row">
+    <div class="col-md-offset-2 col-md-8">
+        <h1 class="text-info margin-bottom">Edit profile</h1>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>
+                        <label for="firstName">
+                            First name:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" id="firstName" class="inp user-info-inp" ng-model="user.userInfo.firstName"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="lastName">
+                            Last name:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" id="lastName" class="inp user-info-inp" ng-model="user.userInfo.lastName"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="date">
+                            Birth Date:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="date" id="date" class="inp user-info-inp" ng-model="user.userInfo.date"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="city">
+                            City:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" id="city" class="inp user-info-inp" ng-model="user.userInfo.city"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="phone">
+                            Phone number:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" id="phone" class="inp user-info-inp" ng-model="user.userInfo.phoneNumber"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="aboutMe">
+                            About me
+                        </label>
+                    </td>
+                    <td>
+                        <textarea id="aboutMe" class="inp user-info-inp" ng-model="user.userInfo.aboutMe"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button class="btn" ng-click="updateUserInfo()">Update profile</button>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

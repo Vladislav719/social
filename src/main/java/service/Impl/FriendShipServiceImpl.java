@@ -47,6 +47,17 @@ public class FriendshipServiceImpl implements FriendshipService {
     @Override
     @Transactional
     public void addRequest(long userId, long friendId) {
+        Friendship incoming = friendshipsRepository.getIncomingRequest(userId, friendId);
+        if (incoming != null){
+            incoming.setStatus(FriendshipStatus.ACCEPTED.getStatus());
+            friendshipsRepository.save(incoming);
+            Friendship friendship = new Friendship();
+            friendship.setFrom(userService.getUserInfo(userId));
+            friendship.setTo(userService.getUserInfo(friendId));
+            friendship.setStatus(FriendshipStatus.ACCEPTED.getStatus());
+            friendshipsRepository.save(friendship);
+            return;
+        }
         Friendship friendship = new Friendship();
         friendship.setFrom(userService.getUserInfo(userId));
         friendship.setTo(userService.getUserInfo(friendId));

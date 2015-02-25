@@ -6,13 +6,18 @@ app.service('SignInInfo', function($http, $location, UserApiService, UserInfo){
     var userInfo = null;
     return {
         getUserInfo: function(){
+            var self = this;
+            if (userInfo == null && user != null)
+                UserApiService.getUserInfo(self.getUser().userId).success(function (data) {
+                    userInfo = data;
+                });
             return userInfo
         },
         updateUser: function(){
             var self = this;
             UserApiService.getCurrentUser().success(function(data){
                 self.setUser(data);
-                UserApiService.getUserInfo(SignInInfo.getUser().userId, false)
+                UserApiService.getUserInfo(self.getUser().userId, false)
                     .success(function (data) {
                         userInfo = data;
                     });
@@ -46,21 +51,15 @@ app.service('SignInInfo', function($http, $location, UserApiService, UserInfo){
         },
         setUser: function(data){
             user = data;
+            userInfo = null;
             localStorage.setItem('social', JSON.stringify(data));
             UserInfo.updateAll(this.getUser().userId);
         },
         login: function(userInfo){
             var self = this;
             var params = {j_username: userInfo.email, j_password: userInfo.password, 'remember-me': 'on'};
-            UserApiService.loginUser(params)
-                .success(function(data){
-                    UserApiService.getCurrentUser().success(function(data) {
-                        self.setUser(data);
-                        $location.path('/profile/' + self.getUser().userId);
-                    });
-                }).error(function(data){
-                    $location.path('/login');
-                })
+            return UserApiService.loginUser(params);
+
         },
         logout: function(){
             localStorage.removeItem('social');

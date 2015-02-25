@@ -59,8 +59,7 @@ public class MessagesApi {
     @RequestMapping(value = "/messages", method = RequestMethod.GET)
     public @ResponseBody Object getDialogs(HttpServletResponse response){
         if (!userLoginService.isAuthenticated()) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return gson.error("You're not authorized");
+            return gson.standardBuilder().toJson(gson.loginError(response));
         }
         return gson.builderWithDateAndTime().toJson(messagesService.getDialogs(userLoginService.getCurrentUserInfo()));
     }
@@ -68,8 +67,7 @@ public class MessagesApi {
     @RequestMapping(value = "/messages/{id}", method = RequestMethod.GET)
     public @ResponseBody Object getMessages(@PathVariable long id, HttpServletResponse response){
         if (!userLoginService.isAuthenticated()) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return gson.error("You're not authorized");
+            return gson.standardBuilder().toJson(gson.loginError(response));
         }
         return gson.builderWithDateAndTime().toJson(messagesService.getMessages(userLoginService.getCurrentUserInfo(), id));
     }
@@ -79,8 +77,7 @@ public class MessagesApi {
                                              @RequestBody MessageText message,
                                              HttpServletResponse response){
         if (!userLoginService.isAuthenticated()) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return gson.error("You're not authorized");
+            return gson.standardBuilder().toJson(gson.loginError(response));
         }
         if (message.getText().equals("")) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -101,8 +98,7 @@ public class MessagesApi {
     public @ResponseBody Object readMessages(@PathVariable long id,
                                              HttpServletResponse response){
         if (!userLoginService.isAuthenticated()) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return gson.error("You're not authorized");
+            return gson.standardBuilder().toJson(gson.loginError(response));
         }
         messagesService.readMessages(userLoginService.getCurrentUserInfo(), id);
         return gson.success("success");

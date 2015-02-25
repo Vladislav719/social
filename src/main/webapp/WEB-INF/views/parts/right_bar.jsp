@@ -1,4 +1,5 @@
-<div class="right_bar">
+<%--
+<div class="col-md-2">
     <div ng-show="signInInfo.isLogin()" style="height: 100%">
         <h1>Your friends</h1>
 
@@ -38,4 +39,4 @@
             </div>
         </div>
     </div>
-</div>
+</div>--%>

@@ -1,4 +1,5 @@
-<div class="message-page add_background">
+<div class="message-page">
+    <h3 class="text-info">{{companion.userInfo.firstName}} {{companion.userInfo.lastName}}</h3>
     <div class="hide-scroll">
         <div class="messages-wrap">
             <div class="scroller">
@@ -25,7 +26,6 @@
         </div>
     </div>
     <form ng-submit="sendMessage()">
-        <textarea type="text" class="inp message_area" ng-model="newMessage"/>
-        <button class="btn">Send</button>
+        <input type="text" class="inp inline message-input"  ng-model="newMessage"/><button class="btn pull-right">Send</button>
     </form>
 </div>

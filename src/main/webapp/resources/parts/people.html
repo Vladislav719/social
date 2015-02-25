@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h1 class="text-info margin-bottom border-bottom" >People</h1>
+        <div ng-repeat="people in peoples" class="margin-bottom">
+            <div class="row">
+                <div class="col-md-3">
+                    <a href="/#/profile/{{people.user.id}}">
+                        <img class="image big-image" src="{{people.photo.photoPath}}"/>
+                    </a>
+                </div>
+                <div class="col-md-7">
+                    <a href="/#/profile/{{people.user.id}}"><p class="text-info head">{{people.user.firstName}} {{people.user.lastName}}</p></a>
+                    <a href="/#/message/{{people.user.id}}"><button class="btn">Send message</button></a>
+                    <a href="" ng-if="!(!!people.status) && people.status != 0" ng-click="addToFriend(people);"><button class="btn">Add to friend</button></a>
+                    <a href="" ng-if="people.status == 0 || people.status == -1" ng-click="cancelFriendRequest(people);"><button class="btn">Cancel request</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

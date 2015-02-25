@@ -4,6 +4,8 @@
 
 app.controller('ProfileController', function ($scope, $routeParams, $http, SignInInfo,
                                               UserApiService, WallApiService, FileUploader, LikesApi) {
+    $scope.pages.currentPage = 'profile';
+
     var profileId;
     $scope.uploader = new FileUploader();
     $scope.uploader.url = '/upload';
@@ -39,6 +41,7 @@ app.controller('ProfileController', function ($scope, $routeParams, $http, SignI
     }
 
     function initialize() {
+        $scope.enableEdit = false;
         profileId = $routeParams.profileId;
         $scope.profileId = profileId;
         $scope.userInfo = {};
@@ -47,24 +50,6 @@ app.controller('ProfileController', function ($scope, $routeParams, $http, SignI
         $scope.incomeFriendRequests = [];
         $scope.outcomeFriendRequests = [];
         $scope.friends = [];
-        $scope.page = {
-            index: 0,
-            isActive: function (index) {
-                return this.index === index;
-            },
-            photos: [],
-            decPhoto: function () {
-                this.index = (this.index > 0) ? --this.index : this.photos.length - 1;
-                this.mainImage = this.photos[this.index];
-            },
-            incPhoto: function () {
-                this.index = (this.index < this.photos.length - 1) ? ++this.index : 0;
-                this.mainImage = this.photos[this.index];
-            },
-            showPhoto: function (index) {
-                this.index = index;
-            }
-        };
         $scope.newPost = {
             text: "",
             profileId: profileId
@@ -74,7 +59,8 @@ app.controller('ProfileController', function ($scope, $routeParams, $http, SignI
         UserApiService.getAllFriends(profileId).success(function (data) {
             $scope.friends = data
         }).error(function (data) {
-            console.log(data);
+            if (data.loginError)
+                $scope.$emit('loginError');
         });
         WallApiService.getAllPost(profileId).success(function (data) {
             var userId = SignInInfo.getUser().userId;
@@ -88,30 +74,28 @@ app.controller('ProfileController', function ($scope, $routeParams, $http, SignI
             $scope.posts = data;
             console.log($scope.posts);
         }).error(function (data) {
-            console.log(data);
+            if (data.loginError)
+                $scope.$emit('loginError');
         });
     }
 
     initialize();
-    UserApiService.getUserInfo(profileId, true)
+    UserApiService.getUserInfo(profileId, false)
         .success(function (data) {
             $scope.profile = data.userInfo;
             $scope.profile.status = data.status;
             console.log(data);
             $scope.profilePhoto = data.photo;
-            $scope.page.mainImage = $scope.profilePhoto;
-            $scope.page.photos =data.photos;
             $scope.profileHistory = {};
             cloneProfile($scope.profileHistory, $scope.profile);
-        });
+        }).error(function (data) {
+            if (data.loginError)
+                $scope.$emit('loginError');
+        });;
 
     $scope.cancelUpdateUserInfo = function () {
         cloneProfile($scope.profile, $scope.profileHistory);
         $scope.enableEdit = false;
-    };
-
-    $scope.addToFriend = function () {
-        UserApiService.addToFriend(profileId);
     };
 
 
@@ -124,16 +108,19 @@ app.controller('ProfileController', function ($scope, $routeParams, $http, SignI
             cloneProfile($scope.profileHistory, $scope.profile);
             $scope.enableEdit = false;
         }).error(function (data) {
-            console.log(data);
-        })
+            if (data.loginError)
+                $scope.$emit('loginError');
+        });
     };
 
     $scope.addPost = function () {
         WallApiService.addPost($scope.newPost).success(function (data) {
             $scope.posts.unshift(data);
+            $scope.newPost.text = '';
             console.log(data)
         }).error(function (data) {
-            console.log(data)
+            if (data.loginError)
+                $scope.$emit('loginError');
         });
     };
 
@@ -142,16 +129,18 @@ app.controller('ProfileController', function ($scope, $routeParams, $http, SignI
             $scope.posts.remove(index);
             console.log(data)
         }).error(function (data) {
-            console.log(data)
+            if (data.loginError)
+                $scope.$emit('loginError');
         });
     };
 
     $scope.editPost = function (post, index) {
-        WallApiService.editPost(post.id, {text: post.text}).success(function (data) {
+        WallApiService.editPost(post.postId, {text: post.text}).success(function (data) {
             $scope.posts[index] = data;
             console.log(data);
         }).error(function (data) {
-            console.log(data)
+            if (data.loginError)
+                $scope.$emit('loginError');
         });
     };
 
@@ -159,7 +148,8 @@ app.controller('ProfileController', function ($scope, $routeParams, $http, SignI
         WallApiService.getPost($scope.posts[index].id).success(function (data) {
             console.log(data)
         }).error(function (data) {
-            console.log(data)
+            if (data.loginError)
+                $scope.$emit('loginError');
         });
     };
 
@@ -174,31 +164,25 @@ app.controller('ProfileController', function ($scope, $routeParams, $http, SignI
                         ind = index;
                 });
                 post.likes.remove(ind, ind);
+            }).error(function (data) {
+                if (data.loginError)
+                    $scope.$emit('loginError');
             });
         } else {
             LikesApi.addLikePost(post.postId).success(function (data) {
+                if (post.likes == null || post.likes == undefined)
+                    post.likes = [];
                 post.likes.push({owner: {id:userId}});
                 post.liked = true
+            }).error(function (data) {
+                if (data.loginError)
+                    $scope.$emit('loginError');
             });
         }
     };
 
 
-    $scope.cancelFriendRequest = function (friendId) {
-        UserApiService.cancelFriendRequest($scope.outcomeFriendRequests[friendId].to.id).success(function (data) {
-            console.log(data);
-        }).error(function (data) {
-            console.log(data);
-        })
-    };
 
-    $scope.removeFromFriends = function (friendId) {
-        UserApiService.cancelFriendRequest($scope.friends[friendId].id).success(function (data) {
-            console.log(data);
-        }).error(function (data) {
-            console.log(data);
-        })
-    };
 
 });
 

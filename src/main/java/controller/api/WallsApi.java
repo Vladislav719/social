@@ -38,6 +38,9 @@ public class WallsApi {
     public @ResponseBody Object addPost(@RequestBody @Valid PostForm postForm,
                                         BindingResult bindingResult, HttpServletResponse response){
         User currentUser = userLoginService.getCurrentUser();
+        if (currentUser == null){
+            return gsonService.standardBuilder().toJson(gsonService.loginError(response));
+        }
         if (bindingResult.hasErrors()){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return gsonService.standardBuilder().toJson(bindingResultErrorUtil.returnJson(bindingResult));
@@ -51,7 +54,7 @@ public class WallsApi {
     public @ResponseBody Object removePost(@PathVariable Long postId, HttpServletResponse response){
         User currentUser = userLoginService.getCurrentUser();
         Post post = postService.findPost(postId);
-        if (post.getAuthor().getId() != currentUser.getUserId() ||
+        if (post.getAuthor().getId() != currentUser.getUserId() &&
                 post.getProfile().getId() != currentUser.getUserId()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return gsonService.error("You don't have permission");
@@ -65,6 +68,8 @@ public class WallsApi {
                                            @RequestBody @Valid PostEdit postEdit,
                                            BindingResult bindingResult, HttpServletResponse response){
         User currentUser = userLoginService.getCurrentUser();
+        if (currentUser == null)
+            return gsonService.standardBuilder().toJson(gsonService.loginError(response));
         Post post = postService.findPost(postId);
         if (post.getAuthor().getId() != currentUser.getUserId() ||
                 post.getProfile().getId() != currentUser.getUserId()) {

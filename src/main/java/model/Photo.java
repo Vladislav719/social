@@ -37,6 +37,10 @@ public class Photo {
     public Photo() {
     }
 
+    public Photo(String photoPath){
+        this.photoPath = photoPath;
+    }
+
     public long getPhotoId() {
         return photoId;
     }

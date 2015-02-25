@@ -9,6 +9,7 @@ import service.FriendshipService;
 import service.UserLoginService;
 import service.gson.GsonService;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,18 +30,20 @@ public class FriendshipApi {
     FriendshipService friendshipService;
 
     @RequestMapping(value = "/friends/requests/add/{friendId}", method = RequestMethod.POST)
-    public @ResponseBody Object addRequest(@PathVariable Long friendId){
+    public @ResponseBody Object addRequest(@PathVariable Long friendId,
+                                           HttpServletResponse response){
         if (!userLoginService.isAuthenticated())
-            return userLoginService.notAuthError();
+            return gsonService.standardBuilder().toJson(gsonService.loginError(response));
         User currentUser = userLoginService.getCurrentUser();
         friendshipService.addRequest(currentUser.getUserId(), friendId);
         return gsonService.success("Request was successfully send");
     }
 
     @RequestMapping(value = "/friends/requests/decline/{friendId}", method = RequestMethod.POST)
-    public @ResponseBody Object declineRequest(@PathVariable Long friendId){
+    public @ResponseBody Object declineRequest(@PathVariable Long friendId,
+                                               HttpServletResponse response){
         if (!userLoginService.isAuthenticated())
-            return userLoginService.notAuthError();
+            return gsonService.standardBuilder().toJson(gsonService.loginError(response));
         User currentUser = userLoginService.getCurrentUser();
         boolean request = friendshipService.declineRequest(currentUser.getUserId(), friendId);
         if (request)
@@ -50,9 +53,10 @@ public class FriendshipApi {
     }
 
     @RequestMapping(value = "/friends/requests/accept/{friendId}", method = RequestMethod.POST)
-    public @ResponseBody Object acceptRequest(@PathVariable Long friendId){
+    public @ResponseBody Object acceptRequest(@PathVariable Long friendId,
+                                              HttpServletResponse response){
         if (!userLoginService.isAuthenticated())
-            return userLoginService.notAuthError();
+            return gsonService.standardBuilder().toJson(gsonService.loginError(response));
         User currentUser = userLoginService.getCurrentUser();
         boolean request = friendshipService.acceptRequest(currentUser.getUserId(), friendId);
         if (request)
@@ -72,27 +76,36 @@ public class FriendshipApi {
     }
 
     @RequestMapping(value = "/friends/requests/in", method = RequestMethod.POST)
-    public @ResponseBody Object getIncomingRequests(){
+    public @ResponseBody Object getIncomingRequests(HttpServletResponse response){
         if (!userLoginService.isAuthenticated())
-            return userLoginService.notAuthError();
+            return gsonService.standardBuilder().toJson(gsonService.loginError(response));
         User currentUser = userLoginService.getCurrentUser();
         List<Friendship> friendsReq = friendshipService.getAllIncomingRequests(currentUser.getUserId());
-        return gsonService.standardBuilder().toJson(friendsReq);
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (Friendship friendship : friendsReq){
+            result.add(gsonService.includePhotos(friendship.getFrom(), false));
+        }
+        return gsonService.standardBuilder().toJson(result);
     }
 
     @RequestMapping(value = "/friends/requests/out", method = RequestMethod.POST)
-    public @ResponseBody Object getOutcomingRequests(){
+    public @ResponseBody Object getOutcomingRequests(HttpServletResponse response){
         if (!userLoginService.isAuthenticated())
-            return userLoginService.notAuthError();
+            return gsonService.standardBuilder().toJson(gsonService.loginError(response));
         User currentUser = userLoginService.getCurrentUser();
         List<Friendship> friendsReq = friendshipService.getAllOutcomingRequests(currentUser.getUserId());
-        return gsonService.standardBuilder().toJson(friendsReq);
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (Friendship friendship : friendsReq){
+            result.add(gsonService.includePhotos(friendship.getTo(), false));
+        }
+        return gsonService.standardBuilder().toJson(result);
     }
 
     @RequestMapping(value = "/friends/requests/remove/{friendId}", method = RequestMethod.DELETE)
-    public @ResponseBody Object getOutcomingRequests(@PathVariable Long friendId){
+    public @ResponseBody Object getOutcomingRequests(@PathVariable Long friendId,
+                                                     HttpServletResponse response){
         if (!userLoginService.isAuthenticated())
-            return userLoginService.notAuthError();
+            return gsonService.standardBuilder().toJson(gsonService.loginError(response));
         User currentUser = userLoginService.getCurrentUser();
         boolean request = friendshipService.removeFriendShip(currentUser.getUserId(), friendId);
         if (request)

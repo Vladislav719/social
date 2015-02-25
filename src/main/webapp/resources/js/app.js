@@ -26,6 +26,22 @@ app.config(function($routeProvider, $locationProvider) {
             templateUrl: 'resources/parts/login.html',
             controller: 'LoginPageController',
             name: 'notAuth'
+        }).when('/search', {
+            templateUrl: 'resources/parts/people.html',
+            controller: 'PeopleController',
+            name: 'auth'
+        }).when('/edit', {
+            templateUrl: 'resources/parts/edit.html',
+            controller: 'EditController',
+            name: 'auth'
+        }).when('/friends', {
+            templateUrl: 'resources/parts/friends.html',
+            controller: 'FriendsController',
+            name: 'auth'
+        }).when('/photos/:id', {
+            templateUrl: 'resources/parts/photos.html',
+            controller: 'PhotosController',
+            name: 'auth'
         }).otherwise({
             redirectTo:'/login'
         });

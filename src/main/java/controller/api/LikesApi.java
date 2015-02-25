@@ -26,8 +26,7 @@ public class LikesApi {
     @RequestMapping(value = "/likes/post/{postId}", method = RequestMethod.POST)
     public @ResponseBody Object addPostLike(@PathVariable long postId, HttpServletResponse response){
         if (userLoginService.getCurrentUserInfo() == null) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return gson.error("You're not logged");
+            return gson.standardBuilder().toJson(gson.loginError(response));
         }
         if (likesService.addLikePost(postId)) {
             response.setStatus(HttpServletResponse.SC_OK);
@@ -58,8 +57,7 @@ public class LikesApi {
     @RequestMapping(value = "/likes/photo/{postId}", method = RequestMethod.POST)
     public @ResponseBody Object addPhotoLike(@PathVariable long postId, HttpServletResponse response){
         if (userLoginService.getCurrentUserInfo() == null) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return gson.error("You're not logged");
+            return gson.standardBuilder().toJson(gson.loginError(response));
         }
         if (likesService.addLikePhoto(postId)) {
             response.setStatus(HttpServletResponse.SC_OK);
@@ -74,8 +72,7 @@ public class LikesApi {
     @RequestMapping(value = "/likes/photo/{postId}", method = RequestMethod.DELETE)
     public @ResponseBody Object removePhotoLike(@PathVariable long postId, HttpServletResponse response) {
         if (userLoginService.getCurrentUserInfo() == null) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return gson.error("You're not logged");
+            return gson.standardBuilder().toJson(gson.loginError(response));
         }
         if (likesService.removeLikePhoto(postId)) {
             response.setStatus(HttpServletResponse.SC_OK);
