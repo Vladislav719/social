@@ -70,6 +70,7 @@ public class ProfileApi {
         UserInfo userInfo = userService.getUserInfo(profileId);
         Gson gson = gsonService.builderWithDate();
         if (userInfo == null) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return gsonService.error("User not found");
         }
         try {

@@ -1,5 +1,6 @@
 package controller.api;
 
+import controller.api.model.Dialog;
 import controller.model.MessageText;
 import model.Message;
 import model.UserInfo;
@@ -14,6 +15,7 @@ import service.gson.GsonService;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -61,7 +63,15 @@ public class MessagesApi {
         if (!userLoginService.isAuthenticated()) {
             return gson.standardBuilder().toJson(gson.loginError(response));
         }
-        return gson.builderWithDateAndTime().toJson(messagesService.getDialogs(userLoginService.getCurrentUserInfo()));
+        List<Dialog> dialogs = messagesService.getDialogs(userLoginService.getCurrentUserInfo());
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (Dialog dialog : dialogs){
+            Map<String, Object> map = new HashMap<>();
+            map.put("user", gson.includePhotos(dialog.getUserInfo(), false));
+            map.put("messages", dialog.getMessage());
+            result.add(map);
+        }
+        return gson.builderWithDateAndTime().toJson(result);
     }
 
     @RequestMapping(value = "/messages/{id}", method = RequestMethod.GET)
@@ -75,7 +85,7 @@ public class MessagesApi {
     @RequestMapping(value = "/messages/{id}", method = RequestMethod.POST)
     public @ResponseBody Object sendMessages(@PathVariable long id,
                                              @RequestBody MessageText message,
-                                             HttpServletResponse response){
+                                              HttpServletResponse response){
         if (!userLoginService.isAuthenticated()) {
             return gson.standardBuilder().toJson(gson.loginError(response));
         }

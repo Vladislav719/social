@@ -8,5 +8,5 @@ app.controller('MessageController', function($scope, $http, SignInInfo, Messages
     }).error(function (data) {
         if (data.loginError)
             $scope.$emit('loginError');
-    });;
+    });
 });

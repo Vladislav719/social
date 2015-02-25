@@ -9,7 +9,7 @@ app.controller('PeopleController', function($scope, SignInInfo, UserApiService, 
         }).error(function (data) {
             if (data.loginError)
                 $scope.$emit('loginError');
-        });;
+        });
 
     $scope.addToFriend = function (people) {
         UserApiService.addToFriend(people.user.id).success(function (data) {
@@ -18,7 +18,7 @@ app.controller('PeopleController', function($scope, SignInInfo, UserApiService, 
         }).error(function (data) {
             if (data.loginError)
                 $scope.$emit('loginError');
-        });;
+        });
     };
 
     $scope.cancelFriendRequest = function (people) {

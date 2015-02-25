@@ -2,9 +2,12 @@
  * Created by ElessarST on 21.02.2015.
  */
 app.controller('ChatController', function($scope, $http, SignInInfo, MessagesApi,
-                                          UserApiService, $routeParams, $timeout){
+                                          UserApiService, $routeParams, $timeout, $location){
     $scope.pages.currentPage = 'messages';
     var chatId = $routeParams.id;
+
+    if (chatId == SignInInfo.getUser().userId)
+        $location.path('/messages/');
 
     $scope.$on('newMessages', function(event,data){
         for (var i = 0; i < data.length; i++){
@@ -48,15 +51,18 @@ app.controller('ChatController', function($scope, $http, SignInInfo, MessagesApi
     }).error(function (data) {
         if (data.loginError)
             $scope.$emit('loginError');
-    });;
+    });
 
     UserApiService.getUserInfo(chatId, false)
         .success(function (data) {
             $scope.companion = data;
         }).error(function (data) {
-            if (data.loginError)
+            if (data.loginError){
                 $scope.$emit('loginError');
-        });;
+                return;
+            }
+            $location.path('/messages/');
+        });
 
 
     $scope.sendMessage = function(){

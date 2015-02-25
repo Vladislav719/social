@@ -24,7 +24,7 @@ public interface MessageRepository extends CrudRepository<Message, Long> {
     @Query("select distinct message.to from Message message where message.from.id=?1")
     public List<UserInfo> getToDialogsUser(long id);
 
-    @Query("select message from Message message where message.from.id in (?1, ?2) and message.to.id in (?1, ?2) order by message.date")
+    @Query("select message from Message message where message.from.id in (?1, ?2) and message.to.id in (?1, ?2) and message.to.id <> message.from.id order by message.date")
     public List<Message> getMessages(long user, long friend);
 
     @Query("select message from Message message where message.from.id = ?2 and message.to.id = ?1 and message.read = false ")

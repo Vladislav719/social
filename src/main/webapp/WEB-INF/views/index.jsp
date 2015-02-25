@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Sign In</title>
+  <title>Social</title>
   <jsp:include page="parts/common_resources.jsp"/>
 
 </head>

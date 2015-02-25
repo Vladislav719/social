@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-md-7">
                     <a href="/#/profile/{{people.userInfo.id}}"><p class="text-info head">{{people.userInfo.firstName}} {{people.userInfo.lastName}}</p></a>
-                    <a href="/#/message/{{people.userInfo.id}}"><button class="btn">Send message</button></a>
+                    <a href="/#/messages/{{people.userInfo.id}}"><button class="btn">Send message</button></a>
                     <a href="" >
                         <button class="btn" ng-click="removeFromFriends(people)">Remove from friends</button>
                     </a>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="col-md-7">
                     <a href="/#/profile/{{people.userInfo.id}}"><p class="text-info head">{{people.userInfo.firstName}} {{people.userInfo.lastName}}</p></a>
-                    <a href="/#/message/{{people.userInfo.id}}"><button class="btn">Send message</button></a>
+                    <a href="/#/messages/{{people.userInfo.id}}"><button class="btn">Send message</button></a>
                     <a href="" ng-if="people.status != 1">
                         <button class="btn" ng-click="acceptFriendRequest(people)">Add to friend</button>
                     </a>
@@ -55,7 +55,7 @@
                 </div>
                 <div class="col-md-7">
                     <a href="/#/profile/{{people.userInfo.id}}"><p class="text-info head">{{people.userInfo.firstName}} {{people.userInfo.lastName}}</p></a>
-                    <a href="/#/message/{{people.userInfo.id}}"><button class="btn">Send message</button></a>
+                    <a href="/#/messages/{{people.userInfo.id}}"><button class="btn">Send message</button></a>
                     <a href="" ng-if="people.status != 1" ng-click="cancelFriendRequest(people)"><button class="btn">Cancel request</button></a>
                 </div>
             </div>

@@ -45,6 +45,10 @@ public class WallsApi {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return gsonService.standardBuilder().toJson(bindingResultErrorUtil.returnJson(bindingResult));
         }
+        if(postForm.getText().isEmpty()){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return gsonService.error("Empty");
+        }
         postForm.setAuthorId(currentUser.getUserId());
         Post post = postService.addPost(postForm);
         return gsonService.standardBuilder().toJson(post);
@@ -53,6 +57,7 @@ public class WallsApi {
     @RequestMapping(value = "/walls/remove/{postId}", method = RequestMethod.DELETE)
     public @ResponseBody Object removePost(@PathVariable Long postId, HttpServletResponse response){
         User currentUser = userLoginService.getCurrentUser();
+
         Post post = postService.findPost(postId);
         if (post.getAuthor().getId() != currentUser.getUserId() &&
                 post.getProfile().getId() != currentUser.getUserId()) {
@@ -67,6 +72,10 @@ public class WallsApi {
     public @ResponseBody Object editPost(@PathVariable Long postId,
                                            @RequestBody @Valid PostEdit postEdit,
                                            BindingResult bindingResult, HttpServletResponse response){
+        if(postEdit.getText().isEmpty()){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return gsonService.error("Empty");
+        }
         User currentUser = userLoginService.getCurrentUser();
         if (currentUser == null)
             return gsonService.standardBuilder().toJson(gsonService.loginError(response));

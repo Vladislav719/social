@@ -2,7 +2,7 @@
  * Created by ElessarST on 14.02.2015.
  */
 
-app.controller('ProfileController', function ($scope, $routeParams, $http, SignInInfo,
+app.controller('ProfileController', function ($scope, $routeParams, $http, SignInInfo, UserInfo, $location,
                                               UserApiService, WallApiService, FileUploader, LikesApi) {
     $scope.pages.currentPage = 'profile';
 
@@ -12,7 +12,6 @@ app.controller('ProfileController', function ($scope, $routeParams, $http, SignI
     $scope.uploader.onSuccessItem = function (fileItem, response) {
         $scope.uploader.clearQueue();
         $scope.profilePhoto = response;
-        $scope.page.photo.push(response);
     };
 
     $scope.photoUploader = new FileUploader();
@@ -89,9 +88,11 @@ app.controller('ProfileController', function ($scope, $routeParams, $http, SignI
             $scope.profileHistory = {};
             cloneProfile($scope.profileHistory, $scope.profile);
         }).error(function (data) {
-            if (data.loginError)
+            if (data.loginError){
                 $scope.$emit('loginError');
-        });;
+            }
+            $location.path('/profile'+SignInInfo.getUser().userId);
+        });
 
     $scope.cancelUpdateUserInfo = function () {
         cloneProfile($scope.profile, $scope.profileHistory);
@@ -182,7 +183,15 @@ app.controller('ProfileController', function ($scope, $routeParams, $http, SignI
     };
 
 
-
+    $scope.addToFriend = function (people) {
+        UserApiService.addToFriend(people.user.id).success(function (data) {
+            $scope.profile.status = 1;
+            UserInfo.updateAll(SignInInfo.getUser().userId);
+        }).error(function (data) {
+            if (data.loginError)
+                $scope.$emit('loginError');
+        });
+    };
 
 });
 
